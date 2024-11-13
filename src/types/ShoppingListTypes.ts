@@ -1,7 +1,7 @@
 export interface ShoppingListItem {
     id: string,
     name: string,
-    status: string
+    status: "in_cart" | "on_shopping_list"
 }
 
 export interface ShoppingListProps {

@@ -27,49 +27,50 @@ function App() {
   const [itemToAdd, setItemToAdd] = useState("")
   const [shoppingListInDb, setShoppingListInDb] = useState<ShoppingListItem[]>([])
   const [cartItemCount, setCartItemCount] = useState<number>(0)
-  const [selectedStore, setSelectedStore] = useState<string>("")
+  const selectedStore: string = "Trader Joes"
+  // const [selectedStore, setSelectedStore] = useState<string>("Trader Joes")
   const [currentView, setCurrentView] = useState<string>("shopping-list")
 
-  setSelectedStore("Trader Joes")
+  
 
   React.useEffect(()=> {
     onValue(shoppingListInFirebase, function(snapshot) {
         // if (snapshot.exists()) {
             
             let shoppingListItemArrays = Object.entries(snapshot.val())
-            console.log(shoppingListItemArrays)
+            // console.log(shoppingListItemArrays)
 
           // interface FirebaseItem {
           //   id: string,
           //   name: unknown,
           //   status: unknown
           // }
-            const shoppingListObjectArray = shoppingListItemArrays.map((item) => {
-              // const [id, details] = item as [number, ShoppingListItem];
+          //   const shoppingListObjectArray = shoppingListItemArrays.map((item) => {
+          //     // const [id, details] = item as [number, ShoppingListItem];
               
-              let id: string = item[0]
-              let data: any = item[1]
-              let name: string = data.name
-              let status: any = data.status
-              return {
-                  id,
-                  name,
-                  status
-              };
-          });
+          //     let id: string = item[0]
+          //     let data: any = item[1]
+          //     let name: string = data.name
+          //     let status: any = data.status
+          //     return {
+          //         id: id,
+          //         name: name,
+          //         status: status
+          //     };
+          // });
           
-            // const shoppingListObjectArray = shoppingListItemArrays.map((item) => {
-            //     return { 
-            //       id : item[0],
-            //       name: item[1].name,
-            //       status: item[1].status
-            //     }
-            // })
+            const shoppingListObjectArray = shoppingListItemArrays.map((item) => {
+                return { 
+                  id : item[0],
+                  // @ts-ignore
+                  name: item[1].name,
+                  // @ts-ignore
+                  status: item[1].status
+                }
+            })
         setShoppingListInDb(shoppingListObjectArray)
     })
   },[])
-
-  
 
   return (
     <>
