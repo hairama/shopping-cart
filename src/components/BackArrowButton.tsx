@@ -8,7 +8,7 @@ export default function BackArrowButton({setCurrentView}: BackArrowButtonProps) 
             role="button" 
             className='back-button'
             onClick={()=>setCurrentView("shopping-list")}>
-                <img className='back-arrow' src={('src/assets/arrow-left-solid.svg')} alt="icon" />
+                <img className='back-arrow' src={('public/assets/arrow-left-solid.svg')} alt="icon" />
         </button> 
     )
 }
