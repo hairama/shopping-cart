@@ -35,29 +35,8 @@ function App() {
 
   React.useEffect(()=> {
     onValue(shoppingListInFirebase, function(snapshot) {
-        // if (snapshot.exists()) {
             
             let shoppingListItemArrays = Object.entries(snapshot.val())
-            // console.log(shoppingListItemArrays)
-
-          // interface FirebaseItem {
-          //   id: string,
-          //   name: unknown,
-          //   status: unknown
-          // }
-          //   const shoppingListObjectArray = shoppingListItemArrays.map((item) => {
-          //     // const [id, details] = item as [number, ShoppingListItem];
-              
-          //     let id: string = item[0]
-          //     let data: any = item[1]
-          //     let name: string = data.name
-          //     let status: any = data.status
-          //     return {
-          //         id: id,
-          //         name: name,
-          //         status: status
-          //     };
-          // });
           
             const shoppingListObjectArray = shoppingListItemArrays.map((item) => {
                 return { 
