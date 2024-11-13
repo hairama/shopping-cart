@@ -1,16 +1,17 @@
 interface ShoppingListProps {
-    shoppingListInDb: string[];
-    removeListItem: (item: string) => void;
+    shoppingListInDb;
+    removeListItem: (item) => void;
   }
 
 export default function ShoppingList({ shoppingListInDb, removeListItem }: ShoppingListProps) {
     
     if (shoppingListInDb.length > 0) {
-        const shoppingListItems = shoppingListInDb.map((item: string) => 
+        const shoppingListItems = shoppingListInDb.map((item) => 
+            item.status === "on_shopping_list" &&
             <li 
-                key={item}
+                key={item.id}
                 onClick={()=>removeListItem(item)}
-            >{item}
+            >{item.name}
             </li>
         )
         return (
