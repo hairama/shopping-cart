@@ -12,7 +12,7 @@ export default function CartButton({setCurrentView, itemCount, text}: CartButton
             onClick={()=>setCurrentView("shopping-cart")}>
             <div className="cart-btn-text">{text}</div>
             <span className="cart-button-count">{itemCount}</span>
-            <img className='icon-button' src={('public/assets/cart-shopping-solid.svg')} alt="icon" />
+            <img className='icon-button' src={('/assets/cart-shopping-solid.svg')} alt="icon" />
         </button>
         
     )
