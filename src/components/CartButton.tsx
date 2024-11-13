@@ -1,12 +1,17 @@
+interface CartButtonProps {
+    setCurrentView: (view: string) => void,
+    text: string,
+    itemCount: number
+}
 
-
-export default function CartButton(props: string | number) {
+export default function CartButton({setCurrentView, itemCount, text}: CartButtonProps) {
     return (
-        props.itemCount >0 && <button 
+        itemCount >0 && <button 
             role="button" 
-            className='cart-button'>
-            <div className="cart-btn-text">{props.text}</div>
-            <span className="cart-button-count">{props.itemCount}</span>
+            className='cart-button'
+            onClick={()=>setCurrentView("shopping-cart")}>
+            <div className="cart-btn-text">{text}</div>
+            <span className="cart-button-count">{itemCount}</span>
             <img className='icon-button' src={('src/assets/cart-shopping-solid.svg')} alt="icon" />
         </button>
         

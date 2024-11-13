@@ -1,6 +1,6 @@
 import React from "react"
 import { initializeApp } from "firebase/app"
-import { getDatabase, ref, push, onValue, remove, update } from "firebase/database"
+import { getDatabase, ref, push, onValue, update } from "firebase/database"
 
 
 
@@ -10,11 +10,11 @@ import cat from './assets/cat.png'
 import './index.css'
 import ShoppingList from './components/ShoppingList'
 import CartButton from './components/CartButton'
-import BackArrow from './components/BackArrow'
+import BackArrowButton from './components/BackArrowButton'
+import ShoppingCart from './features/ShoppingCart/ShoppingCart'
+import { ShoppingListItem } from "./types/ShoppingListTypes"
 
-
-
-const ShoppingContext = createContext()
+const ShoppingContext = createContext(null)
 
 function App() {
   const appSettings = {
@@ -25,9 +25,12 @@ function App() {
   const shoppingListInFirebase = ref(database, "shoppingList")
 
   const [itemToAdd, setItemToAdd] = useState("")
-  const [shoppingListInDb, setShoppingListInDb] = useState([])
+  const [shoppingListInDb, setShoppingListInDb] = useState<ShoppingListItem[]>([])
   const [cartItemCount, setCartItemCount] = useState<number>(0)
-  const [selectedStore, setSelectedStore] = useState<string>("Trader Joes")
+  const [selectedStore, setSelectedStore] = useState<string>("")
+  const [currentView, setCurrentView] = useState<string>("shopping-list")
+
+  setSelectedStore("Trader Joes")
 
   React.useEffect(()=> {
     onValue(shoppingListInFirebase, function(snapshot) {
@@ -36,21 +39,32 @@ function App() {
             let shoppingListItemArrays = Object.entries(snapshot.val())
             console.log(shoppingListItemArrays)
 
+          // interface FirebaseItem {
+          //   id: string,
+          //   name: unknown,
+          //   status: unknown
+          // }
             const shoppingListObjectArray = shoppingListItemArrays.map((item) => {
-                return { 
-                  id : item[0],
-                  name: item[1].name,
-                  status: item[1].status
-
-                }
-            })
-            // for (let i = 0; i < shoppingListItemArrays.length; i++) {
-            //     let currentItem = shoppingListItemArrays[i]
-            //     let currentItemID = currentItem[0]
-            //     let currentItemValue = currentItem[1]
-            // } 
-        // }
-        // console.log(shoppingListObjectArray)
+              // const [id, details] = item as [number, ShoppingListItem];
+              
+              let id: string = item[0]
+              let data: any = item[1]
+              let name: string = data.name
+              let status: any = data.status
+              return {
+                  id,
+                  name,
+                  status
+              };
+          });
+          
+            // const shoppingListObjectArray = shoppingListItemArrays.map((item) => {
+            //     return { 
+            //       id : item[0],
+            //       name: item[1].name,
+            //       status: item[1].status
+            //     }
+            // })
         setShoppingListInDb(shoppingListObjectArray)
     })
   },[])
@@ -58,35 +72,47 @@ function App() {
   
 
   return (
-    <ShoppingContext.Provider value={{cartItemCount, selectedStore}}>
+    <>
       
       <div className="container">
-      <BackArrow />
-        <img src={cat}/>
-        <input 
-          type="text" 
-          id="input-field" 
-          placeholder="Bread"
-          value={itemToAdd}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-        />
-        <button 
-          id="add-button"
-          onClick={getInput}
-          >Add to cart</button>
-        <ul id="shopping-list">
-          <ShoppingList 
-            shoppingListInDb={shoppingListInDb}
-            removeListItem={(item: string)=>removeListItem(item)}
+      <BackArrowButton 
+        setCurrentView={setCurrentView}/>
+        {currentView === "shopping-list" && (
+        <>
+          <img src={cat}/>
+          <input 
+            type="text" 
+            id="input-field" 
+            placeholder="Bread"
+            value={itemToAdd}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
           />
-        </ul>
+          <button 
+            id="add-button"
+            onClick={getInput}
+            >Add to list</button>
+          <ul id="shopping-list">
+            <ShoppingList 
+              shoppingListInDb={shoppingListInDb}
+              removeListItem={(item: ShoppingListItem)=>removeListItem(item)}
+            />
+          </ul>
+        </>)}
+        { currentView === "shopping-cart" && (
+          <ShoppingCart 
+          shoppingListInDb={shoppingListInDb}
+          removeListItem={(item: ShoppingListItem)=>removeListItem(item)}
+          />)}
+        
         <CartButton 
           text={selectedStore}
           itemCount={cartItemCount}
+          setCurrentView={setCurrentView}
         />
+        
       </div>
-    </ShoppingContext.Provider>
+    </>
   )
 
   function handleChange(event: any): void {
@@ -101,7 +127,7 @@ function App() {
       })
       // setShoppingListInDb((items)=> [...items, itemToAdd])
     }
-    setItemToAdd((input)=> input="")
+    setItemToAdd("")
   }
 
   function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
@@ -110,12 +136,16 @@ function App() {
     }
   }
 
-  function removeListItem(item): void {
-    setCartItemCount((prevNumber: number) => prevNumber + 1)
+  function removeListItem(item: ShoppingListItem): void {
     // setShoppingListInDb((items) => items.filter((i) => i !== item))
     let exactLocationOfItemInDB = ref(database, `shoppingList/${item.id}`)
-        
-        update(exactLocationOfItemInDB, {status: "in_cart"})
+        if(item.status === "on_shopping_list") {
+          update(exactLocationOfItemInDB, {status: "in_cart"})
+          setCartItemCount((prevNumber: number) => prevNumber + 1)
+        } else if(item.status === "in_cart") {
+          update(exactLocationOfItemInDB, {status: "on_shopping_list"})
+          setCartItemCount((prevNumber: number) => prevNumber - 1)
+        }
     return
   }
 }
