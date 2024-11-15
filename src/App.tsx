@@ -4,7 +4,6 @@ import { getDatabase, ref, push, onValue, update } from "firebase/database"
 
 
 
-
 import { useState, createContext } from 'react'
 import cat from './assets/cat.png'
 import './index.css'
@@ -12,9 +11,9 @@ import ShoppingList from './components/ShoppingList'
 import CartButton from './components/CartButton'
 import BackArrowButton from './components/BackArrowButton'
 import ShoppingCart from './features/ShoppingCart/ShoppingCart'
-import { ShoppingListItem } from "./types/ShoppingListTypes"
+import { ShoppingListItem, ShoppingContextValues } from "./types/ShoppingListTypes"
 
-const ShoppingContext = createContext(null)
+const ShoppingContext = createContext({})
 
 function App() {
   const appSettings = {
@@ -35,29 +34,8 @@ function App() {
 
   React.useEffect(()=> {
     onValue(shoppingListInFirebase, function(snapshot) {
-        // if (snapshot.exists()) {
             
             let shoppingListItemArrays = Object.entries(snapshot.val())
-            // console.log(shoppingListItemArrays)
-
-          // interface FirebaseItem {
-          //   id: string,
-          //   name: unknown,
-          //   status: unknown
-          // }
-          //   const shoppingListObjectArray = shoppingListItemArrays.map((item) => {
-          //     // const [id, details] = item as [number, ShoppingListItem];
-              
-          //     let id: string = item[0]
-          //     let data: any = item[1]
-          //     let name: string = data.name
-          //     let status: any = data.status
-          //     return {
-          //         id: id,
-          //         name: name,
-          //         status: status
-          //     };
-          // });
           
             const shoppingListObjectArray = shoppingListItemArrays.map((item) => {
                 return { 
@@ -74,45 +52,47 @@ function App() {
 
   return (
     <>
-      
-      <div className="container">
-      <BackArrowButton 
-        setCurrentView={setCurrentView}/>
-        {currentView === "shopping-list" && (
-        <>
-          <img src={cat}/>
-          <input 
-            type="text" 
-            id="input-field" 
-            placeholder="Bread"
-            value={itemToAdd}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-          />
-          <button 
-            id="add-button"
-            onClick={getInput}
-            >Add to list</button>
-          <ul id="shopping-list">
-            <ShoppingList 
-              shoppingListInDb={shoppingListInDb}
-              removeListItem={(item: ShoppingListItem)=>removeListItem(item)}
+      <ShoppingContext.Provider value={{shoppingListInDb, setShoppingListInDb}}>
+        <div className="container">
+        <BackArrowButton 
+          setCurrentView={setCurrentView}/>
+          {currentView === "shopping-list" && (
+          <>
+            <img src={cat}/>
+            <input 
+              type="text" 
+              id="input-field" 
+              placeholder="Bread"
+              value={itemToAdd}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
             />
-          </ul>
-        </>)}
-        { currentView === "shopping-cart" && (
-          <ShoppingCart 
-          shoppingListInDb={shoppingListInDb}
-          removeListItem={(item: ShoppingListItem)=>removeListItem(item)}
-          />)}
-        
-        <CartButton 
-          text={selectedStore}
-          itemCount={cartItemCount}
-          setCurrentView={setCurrentView}
-        />
-        
-      </div>
+            <button 
+              id="add-button"
+              onClick={getInput}
+              >Add to list</button>
+            <ul id="shopping-list">
+              <ShoppingList 
+                shoppingListInDb={shoppingListInDb}
+                removeListItem={(item: ShoppingListItem)=>removeListItem(item)}
+              />
+            </ul>
+          </>)}
+          { currentView === "shopping-cart" && (
+            <ShoppingCart 
+            shoppingListInDb={shoppingListInDb}
+            removeListItem={(item: ShoppingListItem)=>removeListItem(item)}
+            />)}
+          
+          <CartButton 
+            text={selectedStore}
+            itemCount={cartItemCount}
+            setCurrentView={setCurrentView}
+          />
+          
+        </div>
+      </ShoppingContext.Provider>
+      
     </>
   )
 
