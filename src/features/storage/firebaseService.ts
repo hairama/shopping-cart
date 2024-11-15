@@ -1,8 +1,9 @@
 import { initializeApp } from "firebase/app"
 import { getDatabase, ref, onValue, update } from "firebase/database"
 import React from "react"
-import { setShoppingListInDb } from "../../App"
-import { ShoppingListItem } from "../ShoppingList/ShoppingListTypes"
+// import setShoppingListInDb from "../../App"
+import { ShoppingContext } from "../../App"
+import { ShoppingListItem, ShoppingListProps, ShoppingContextValues } from "../../types/ShoppingListTypes"
 
 const appSettings = {
     databaseURL: "https://realtime-database-69249-default-rtdb.firebaseio.com/"
@@ -10,32 +11,13 @@ const appSettings = {
   const app = initializeApp(appSettings)
   const database = getDatabase(app)
   const shoppingListInFirebase = ref(database, "shoppingList")
+  const value = React.useContext(ShoppingContext);
+  console.log(value)
 
   React.useEffect(()=> {
     onValue(shoppingListInFirebase, function(snapshot) {
-        // if (snapshot.exists()) {
             
             let shoppingListItemArrays = Object.entries(snapshot.val())
-            // console.log(shoppingListItemArrays)
-
-          // interface FirebaseItem {
-          //   id: string,
-          //   name: unknown,
-          //   status: unknown
-          // }
-          //   const shoppingListObjectArray = shoppingListItemArrays.map((item) => {
-          //     // const [id, details] = item as [number, ShoppingListItem];
-              
-          //     let id: string = item[0]
-          //     let data: any = item[1]
-          //     let name: string = data.name
-          //     let status: any = data.status
-          //     return {
-          //         id: id,
-          //         name: name,
-          //         status: status
-          //     };
-          // });
           
             const shoppingListObjectArray = shoppingListItemArrays.map((item) => {
                 return { 
@@ -46,7 +28,8 @@ const appSettings = {
                   status: item[1].status
                 }
             })
-        setShoppingListInDb(shoppingListObjectArray)
+            value.setShoppingListInDb(shoppingListObjectArray)
+            // React.useContext(setShoppingListInDb(shoppingListObjectArray))
     })
   },[])
 
