@@ -1,15 +1,17 @@
 export interface ShoppingListItem {
     id: string,
     name: string,
-    status: "in_cart" | "on_shopping_list"
+    status: string
 }
 
 export interface ShoppingListProps {
     shoppingListInDb: ShoppingListItem[],
-    removeListItem: (item: ShoppingListItem) => void;
+    cartItemCount: number
+    setCartItemCount: React.Dispatch<React.SetStateAction<setCartItemCount>>
+    // removeListItem: (item: ShoppingListItem) => void;
   }
 
   export interface ShoppingContextValues {
-    shoppingListInDb: ShoppingListItem
+    shoppingListInDb: ShoppingListItem,
     setShoppingListInDb: React.Dispatch<React.SetStateAction<ShoppingListItem[]>>
 }
