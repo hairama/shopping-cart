@@ -12,7 +12,7 @@ export function useFirebasePush(path: string, data: any) {
 
     try {
       await push(dataRef, data);
-      console.log('Data pushed successfully');
+      // console.log('Data pushed successfully');
     } catch (error) {
       console.error('Error pushing data: ', error);
     }
