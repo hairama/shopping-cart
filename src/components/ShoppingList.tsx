@@ -7,25 +7,12 @@ export default function ShoppingList({ shoppingListInDb }: ShoppingListProps) {
         
         const updatedStatus = item.status === "on_shopping_list" ? "in_cart" : "on_shopping_list";
         // Call the update hook with the new status
-        
-        // if (item.status === "in_cart") {
-        //     setCartItemCount(oldCount => oldCount--)
-        // }
-
         const updateData = useFirebaseUpdate(`shopping-list/${item.id}`, {
           id: item.id,
           name: item.name,  // Pass the item ID to ensure you're updating the correct item
           status: updatedStatus
         });
         updateData(); // Trigger the update operation
-        
-        
-        
-        
-        
-
-        
-
     };
     
     if (shoppingListInDb.length > 0) {
