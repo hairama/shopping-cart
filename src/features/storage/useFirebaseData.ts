@@ -21,6 +21,7 @@ export function useFirebaseData() {
           }  
         })
       setData(shoppingListObjectArray)
+
       })
 
     // Cleanup listener on unmount

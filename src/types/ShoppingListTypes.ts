@@ -5,10 +5,7 @@ export interface ShoppingListItem {
 }
 
 export interface ShoppingListProps {
-    shoppingListInDb: ShoppingListItem[],
-    cartItemCount: number
-    setCartItemCount: React.Dispatch<React.SetStateAction<setCartItemCount>>
-    // removeListItem: (item: ShoppingListItem) => void;
+    shoppingListInDb: ShoppingListItem[]
   }
 
   export interface ShoppingContextValues {
