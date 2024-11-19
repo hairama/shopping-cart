@@ -14,10 +14,6 @@ export default function CartList({ shoppingListInDb }: ShoppingListProps) {
           status: updatedStatus
         });
         updateData(); // Trigger the update operation
-
-        // if (item.status === "in_cart") {
-        //     setCartItemCount(oldCount => oldCount++)
-        // }
     };
 
 
@@ -33,7 +29,7 @@ export default function CartList({ shoppingListInDb }: ShoppingListProps) {
         return (
             <>
                 <h1></h1>
-                <ul>                   
+                <ul>                  
                 {shoppingListItems}
                 </ul>
             </>
