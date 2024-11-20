@@ -1,11 +1,5 @@
 import React from "react"
-import { initializeApp } from "firebase/app"
-import { getDatabase, ref, push, onValue, update } from "firebase/database"
-
-
-
-
-import { useState, createContext } from 'react'
+import { useState, useEffect } from 'react'
 import cat from './assets/cat.png'
 import './index.css'
 import ShoppingList from './components/ShoppingList'
@@ -13,142 +7,114 @@ import CartButton from './components/CartButton'
 import BackArrowButton from './components/BackArrowButton'
 import ShoppingCart from './features/ShoppingCart/ShoppingCart'
 import { ShoppingListItem } from "./types/ShoppingListTypes"
+import { useFirebaseData, useFirebasePush } from "./features/storage/index"
+import LoginPage from "./features/Auth/LoginPage"
+import IconButton from "./components/IconButton"
+import { AuthProvider } from "./features/Auth/AuthProvider"
 
-const ShoppingContext = createContext(null)
+const ShoppingContext = React.createContext({})
 
 function App() {
-  const appSettings = {
-    databaseURL: "https://realtime-database-69249-default-rtdb.firebaseio.com/"
-  }
-  const app = initializeApp(appSettings)
-  const database = getDatabase(app)
-  const shoppingListInFirebase = ref(database, "shoppingList")
-
   const [itemToAdd, setItemToAdd] = useState("")
   const [shoppingListInDb, setShoppingListInDb] = useState<ShoppingListItem[]>([])
   const [cartItemCount, setCartItemCount] = useState<number>(0)
   const selectedStore: string = "Trader Joes"
-  // const [selectedStore, setSelectedStore] = useState<string>("Trader Joes")
   const [currentView, setCurrentView] = useState<string>("shopping-list")
-
+  const firebaseData = useFirebaseData()
   
+  const pushData = useFirebasePush('shopping-list', {
+    name: itemToAdd,
+    status: "on_shopping_list"
+  });
 
-  React.useEffect(()=> {
-    onValue(shoppingListInFirebase, function(snapshot) {
-        // if (snapshot.exists()) {
-            
-            let shoppingListItemArrays = Object.entries(snapshot.val())
-            // console.log(shoppingListItemArrays)
 
-          // interface FirebaseItem {
-          //   id: string,
-          //   name: unknown,
-          //   status: unknown
-          // }
-          //   const shoppingListObjectArray = shoppingListItemArrays.map((item) => {
-          //     // const [id, details] = item as [number, ShoppingListItem];
-              
-          //     let id: string = item[0]
-          //     let data: any = item[1]
-          //     let name: string = data.name
-          //     let status: any = data.status
-          //     return {
-          //         id: id,
-          //         name: name,
-          //         status: status
-          //     };
-          // });
-          
-            const shoppingListObjectArray = shoppingListItemArrays.map((item) => {
-                return { 
-                  id : item[0],
-                  // @ts-ignore
-                  name: item[1].name,
-                  // @ts-ignore
-                  status: item[1].status
-                }
-            })
-        setShoppingListInDb(shoppingListObjectArray)
-    })
-  },[])
+  useEffect(() => {
+    // Set the local state when the Firebase data changes
+      if (firebaseData !== null) {
+        setShoppingListInDb(firebaseData)
+      }
+  }, [firebaseData]);  // Only run this effect when firebaseData changes
+  
+    // Adds items to firebase
+    function getInput(): void {
+      if(itemToAdd !== "") {
+        pushData();
+      }
+      setItemToAdd("")
+    }
+  
+  useEffect(() => {
+    if (shoppingListInDb.length > 0) {
+
+      let itemsInCart = shoppingListInDb.filter((item) => (item.status === "in_cart"))
+          setCartItemCount(itemsInCart.length)
+      }
+  }, [shoppingListInDb])
+    
+  
+    function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+      if (event.key === "Enter") {
+        getInput()
+      }
+    }
+
+
+  if (shoppingListInDb === null) {
+    return (<div>Loading...</div>)
+  }
 
   return (
     <>
-      
-      <div className="container">
-      <BackArrowButton 
-        setCurrentView={setCurrentView}/>
-        {currentView === "shopping-list" && (
-        <>
-          <img src={cat}/>
-          <input 
-            type="text" 
-            id="input-field" 
-            placeholder="Bread"
-            value={itemToAdd}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-          />
-          <button 
-            id="add-button"
-            onClick={getInput}
-            >Add to list</button>
-          <ul id="shopping-list">
-            <ShoppingList 
-              shoppingListInDb={shoppingListInDb}
-              removeListItem={(item: ShoppingListItem)=>removeListItem(item)}
-            />
-          </ul>
-        </>)}
-        { currentView === "shopping-cart" && (
-          <ShoppingCart 
-          shoppingListInDb={shoppingListInDb}
-          removeListItem={(item: ShoppingListItem)=>removeListItem(item)}
-          />)}
-        
-        <CartButton 
-          text={selectedStore}
-          itemCount={cartItemCount}
-          setCurrentView={setCurrentView}
+      <AuthProvider>
+      <ShoppingContext.Provider value={{shoppingListInDb, setShoppingListInDb}}>
+        <div className="container">
+        <BackArrowButton 
+          setCurrentView={setCurrentView}/>
+        <IconButton 
+          iconUrl='../assets/circle-user-solid.svg'
+          onClick={()=>setCurrentView('login-page')}
         />
-        
-      </div>
+        {currentView === "login-page" && <LoginPage/>}
+          {currentView === "shopping-list" && (
+          <>
+            <img src={cat}/>
+            <input 
+              type="text" 
+              id="input-field" 
+              placeholder="Bread"
+              value={itemToAdd}
+              onChange={(e)=> setItemToAdd(e.target.value)}
+              onKeyDown={handleKeyDown}
+            />
+            <button 
+              id="add-button"
+              onClick={getInput}
+              >Add to list</button>
+            <ul id="shopping-list">
+              <ShoppingList 
+                shoppingListInDb={shoppingListInDb}
+              />
+            </ul>
+          </>)}
+          { currentView === "shopping-cart" && (
+            <ShoppingCart 
+            shoppingListInDb={shoppingListInDb}
+            />)}
+          
+          <CartButton 
+            text={selectedStore}
+            cartItemCount={cartItemCount}
+            setCurrentView={setCurrentView}
+          />
+          
+        </div>
+      </ShoppingContext.Provider>
+      
+      </AuthProvider>
+      
     </>
   )
 
-  function handleChange(event: any): void {
-    setItemToAdd(event.target.value)
-  }
-
-  function getInput(): void {
-    if(itemToAdd !== "") {
-      push(shoppingListInFirebase, {
-        name: itemToAdd,
-        status: "on_shopping_list"
-      })
-      // setShoppingListInDb((items)=> [...items, itemToAdd])
-    }
-    setItemToAdd("")
-  }
-
-  function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
-    if (event.key === "Enter") {
-      getInput()
-    }
-  }
-
-  function removeListItem(item: ShoppingListItem): void {
-    // setShoppingListInDb((items) => items.filter((i) => i !== item))
-    let exactLocationOfItemInDB = ref(database, `shoppingList/${item.id}`)
-        if(item.status === "on_shopping_list") {
-          update(exactLocationOfItemInDB, {status: "in_cart"})
-          setCartItemCount((prevNumber: number) => prevNumber + 1)
-        } else if(item.status === "in_cart") {
-          update(exactLocationOfItemInDB, {status: "on_shopping_list"})
-          setCartItemCount((prevNumber: number) => prevNumber - 1)
-        }
-    return
-  }
 }
 
 export default App
