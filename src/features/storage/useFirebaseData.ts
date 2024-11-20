@@ -17,7 +17,7 @@ export function useFirebaseData() {
             // @ts-ignore
             name: item[1].name,
             // @ts-ignore
-            status: item[1].status
+            status: item[1].status || 'on_shopping_list'
           }  
         })
       setData(shoppingListObjectArray)

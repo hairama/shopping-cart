@@ -8,6 +8,9 @@ import BackArrowButton from './components/BackArrowButton'
 import ShoppingCart from './features/ShoppingCart/ShoppingCart'
 import { ShoppingListItem } from "./types/ShoppingListTypes"
 import { useFirebaseData, useFirebasePush } from "./features/storage/index"
+import LoginPage from "./features/Auth/LoginPage"
+import IconButton from "./components/IconButton"
+import { AuthProvider } from "./features/Auth/AuthProvider"
 
 const ShoppingContext = React.createContext({})
 
@@ -62,10 +65,16 @@ function App() {
 
   return (
     <>
+      <AuthProvider>
       <ShoppingContext.Provider value={{shoppingListInDb, setShoppingListInDb}}>
         <div className="container">
         <BackArrowButton 
           setCurrentView={setCurrentView}/>
+        <IconButton 
+          iconUrl='../assets/circle-user-solid.svg'
+          onClick={()=>setCurrentView('login-page')}
+        />
+        {currentView === "login-page" && <LoginPage/>}
           {currentView === "shopping-list" && (
           <>
             <img src={cat}/>
@@ -100,6 +109,8 @@ function App() {
           
         </div>
       </ShoppingContext.Provider>
+      
+      </AuthProvider>
       
     </>
   )
