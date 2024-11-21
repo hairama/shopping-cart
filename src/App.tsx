@@ -7,7 +7,7 @@ import CartButton from './components/CartButton'
 import BackArrowButton from './components/BackArrowButton'
 import ShoppingCart from './features/ShoppingCart/ShoppingCart'
 import { ShoppingListItem } from "./types/ShoppingListTypes"
-import { useFirebaseData, useFirebasePush } from "./features/storage/index"
+import { useShoppingList, useFirebasePush } from "./features/storage/index"
 import LoginPage from "./features/Auth/LoginPage"
 import IconButton from "./components/IconButton"
 import { AuthProvider } from "./features/Auth/AuthProvider"
@@ -20,7 +20,7 @@ function App() {
   const [cartItemCount, setCartItemCount] = useState<number>(0)
   const selectedStore: string = "Trader Joes"
   const [currentView, setCurrentView] = useState<string>("shopping-list")
-  const firebaseData = useFirebaseData()
+  const shoppingListData = useShoppingList().data
   
   const pushData = useFirebasePush('shopping-list', {
     name: itemToAdd,
@@ -30,10 +30,13 @@ function App() {
 
   useEffect(() => {
     // Set the local state when the Firebase data changes
-      if (firebaseData !== null) {
-        setShoppingListInDb(firebaseData)
+      if (shoppingListData !== null) {
+        setShoppingListInDb(shoppingListData)
+        let itemsInCart = shoppingListInDb.filter((item) => (item.status === "in_cart"))
+        setCartItemCount(itemsInCart.length)
+        console.log("I'm running!")
       }
-  }, [firebaseData]);  // Only run this effect when firebaseData changes
+  }, [shoppingListData]);  // Only run this effect when firebaseData changes
   
     // Adds items to firebase
     function getInput(): void {
@@ -43,13 +46,13 @@ function App() {
       setItemToAdd("")
     }
   
-  useEffect(() => {
-    if (shoppingListInDb.length > 0) {
-
-      let itemsInCart = shoppingListInDb.filter((item) => (item.status === "in_cart"))
-          setCartItemCount(itemsInCart.length)
-      }
-  }, [shoppingListInDb])
+  // useEffect(() => {
+  //   if (shoppingListInDb.length > 0) {
+  //     console.log("Me too!")
+  //     let itemsInCart = shoppingListInDb.filter((item) => (item.status === "in_cart"))
+  //         setCartItemCount(itemsInCart.length)
+  //     }
+  // }, [shoppingListInDb])
     
   
     function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
@@ -68,45 +71,45 @@ function App() {
       <AuthProvider>
       <ShoppingContext.Provider value={{shoppingListInDb, setShoppingListInDb}}>
         <div className="container">
-        <BackArrowButton 
-          setCurrentView={setCurrentView}/>
-        <IconButton 
-          iconUrl='../assets/circle-user-solid.svg'
-          onClick={()=>setCurrentView('login-page')}
-        />
-        {currentView === "login-page" && <LoginPage/>}
-          {currentView === "shopping-list" && (
-          <>
-            <img src={cat}/>
-            <input 
-              type="text" 
-              id="input-field" 
-              placeholder="Bread"
-              value={itemToAdd}
-              onChange={(e)=> setItemToAdd(e.target.value)}
-              onKeyDown={handleKeyDown}
-            />
-            <button 
-              id="add-button"
-              onClick={getInput}
-              >Add to list</button>
-            <ul id="shopping-list">
-              <ShoppingList 
-                shoppingListInDb={shoppingListInDb}
-              />
-            </ul>
-          </>)}
-          { currentView === "shopping-cart" && (
-            <ShoppingCart 
-            shoppingListInDb={shoppingListInDb}
-            />)}
-          
-          <CartButton 
-            text={selectedStore}
-            cartItemCount={cartItemCount}
-            setCurrentView={setCurrentView}
+          <BackArrowButton 
+            setCurrentView={setCurrentView}/>
+          <IconButton 
+            iconUrl='../assets/circle-user-solid.svg'
+            onClick={()=>setCurrentView('login-page')}
           />
-          
+          {currentView === "login-page" && <LoginPage/>}
+            {currentView === "shopping-list" && (
+            <>
+              <img src={cat}/>
+              <input 
+                type="text" 
+                id="input-field" 
+                placeholder="Bread"
+                value={itemToAdd}
+                onChange={(e)=> setItemToAdd(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
+              <button 
+                id="add-button"
+                onClick={getInput}
+                >Add to list</button>
+              <ul id="shopping-list">
+                <ShoppingList 
+                  shoppingListInDb={shoppingListInDb}
+                />
+              </ul>
+            </>)}
+            { currentView === "shopping-cart" && (
+              <ShoppingCart 
+              shoppingListInDb={shoppingListInDb}
+              />)}
+            
+            <CartButton 
+              text={selectedStore}
+              cartItemCount={cartItemCount}
+              setCurrentView={setCurrentView}
+            />
+            
         </div>
       </ShoppingContext.Provider>
       

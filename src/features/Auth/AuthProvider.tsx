@@ -1,9 +1,22 @@
+import { Timestamp } from "firebase/firestore/lite";
 import React, { createContext, useContext, useState } from "react";
+
+export interface SharedLists {
+    listId: string
+}
+
+export interface UserData {
+    uid: string
+    email: string
+    first_name?: string
+    created_at?: Timestamp
+    shared_lists?: SharedLists[]
+}
 
 // Define the type for the context
 interface AuthContextType {
-  userId: string | null;
-  setUserId: (id: string | null) => void;
+  user: UserData | null;
+  setUser: (user: UserData | null) => void;
 }
 
 // Create the context with a default value
@@ -20,10 +33,10 @@ const useAuth = () => {
 
 // AuthProvider component
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [userId, setUserId] = useState<string | null>(null);
+  const [user, setUser] = useState<UserData | null>(null);
 
   return (
-    <AuthContext.Provider value={{ userId, setUserId }}>
+    <AuthContext.Provider value={{ user, setUser }}>
       {children}
     </AuthContext.Provider>
   );

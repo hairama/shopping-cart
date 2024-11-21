@@ -9,8 +9,6 @@ export default function CartList({ shoppingListInDb }: ShoppingListProps) {
         
         // Call the update hook with the new status
         const updateData = useFirebaseUpdate(`shopping-list/${item.id}`, {
-          id: item.id,
-          name: item.name,  // Pass the item ID to ensure you're updating the correct item
           status: updatedStatus
         });
         updateData(); // Trigger the update operation

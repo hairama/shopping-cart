@@ -2,19 +2,22 @@ import React, { useState } from 'react';
 import { auth } from '../storage/firebase'; // Import auth from your firebase.ts
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { useAuth } from './AuthProvider';
+import { Timestamp } from 'firebase/firestore';
+import { useFirebaseUpdate, useFirebaseData } from '../storage/index'
+import { UserData } from "../Auth/AuthProvider"
 
-interface User {
-  email: string;
-  uid: string;
-}
+// interface UserData {
+//   email: string;
+//   uid: string;
+// }
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [user, setUser] = useState<User | null>(null);
+  const [firstName, setFirstName] = useState<string>('')
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { userId, setUserId } = useAuth()
+  const { user, setUser } = useAuth()
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,11 +26,30 @@ const LoginPage: React.FC = () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const newUser = userCredential.user;
-      setUser({
-        email: newUser.email!,
+      const timestamp = Timestamp.now()
+      const userData: UserData = {
         uid: newUser.uid,
-      });
-      if (newUser.uid !== null) {setUserId(newUser.uid)}
+        email: newUser.email!,
+        first_name: firstName,
+        created_at: timestamp,
+        shared_lists: []
+      }
+      setUser(userData)
+      console.log(userData)
+      console.log(user === null)
+      
+        function toFirebaseUserData(user: UserData): Omit<UserData, 'uid'> {
+            const { uid, ...data } = user;
+            return data;
+          }
+          
+            // Call the update hook with the new status
+            const updateUserData = useFirebaseUpdate(`users/${userData.uid}`, toFirebaseUserData(userData));
+            updateUserData(); // Trigger the update operation
+
+      
+      
+
     } catch (error) {
       setError(error instanceof Error ? error.message : 'An unknown error occurred');
     } finally {
@@ -46,7 +68,7 @@ const LoginPage: React.FC = () => {
         email: loggedInUser.email!,
         uid: loggedInUser.uid,
       });
-      if (loggedInUser.uid !== null) {setUserId(loggedInUser.uid)}
+    
     } catch (error) {
       setError(error instanceof Error ? error.message : 'An unknown error occurred');
     } finally {
@@ -58,7 +80,7 @@ const LoginPage: React.FC = () => {
     setUser(null);
     try {
       await signOut(auth);
-      setUserId(null)
+      setUser(null)
     } catch (error) {
       setError(error instanceof Error ? error.message : 'An unknown error occurred');
     }
@@ -67,10 +89,9 @@ const LoginPage: React.FC = () => {
   return (
     <div>
       <h1>Login</h1>
-      userId? <p>{`Your user ID is: ${userId}`}</p>
       {user? (
         <div>
-          <h2>Welcome, {user.email}</h2>
+          <h2>Welcome, {user.first_name}</h2>
           <button onClick={handleLogout}>Log Out</button>
         </div>
       ) : (
@@ -91,6 +112,15 @@ const LoginPage: React.FC = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label>First name</label>
+              <input
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
                 required
               />
             </div>
