@@ -3,7 +3,7 @@ import { auth } from '../storage/firebase'; // Import auth from your firebase.ts
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { useAuth } from './AuthProvider';
 import { Timestamp } from 'firebase/firestore';
-import { useFirebaseUpdate, useFirebaseData } from '../storage/index'
+import { useFirebaseUpdate, useUserData } from '../storage/index'
 import { UserData } from "../Auth/AuthProvider"
 
 // interface UserData {
@@ -18,6 +18,9 @@ const LoginPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { user, setUser } = useAuth()
+  const [uidForFetch] = useState<string | null>(null)
+
+  const fbUserData = uidForFetch ? useUserData(uidForFetch) : null;
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,17 +67,36 @@ const LoginPage: React.FC = () => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const loggedInUser = userCredential.user;
-      setUser({
-        email: loggedInUser.email!,
-        uid: loggedInUser.uid,
-      });
-    
+      const userID = loggedInUser.uid;
+      console.log(`User ID fetched: ${userID}`);
+  
+      // Fetch user data from Firestore/Database
+      const userSnapshot = await useUserData(userID); // Assuming useUserData returns a promise
+      if (userSnapshot.exists()) {
+        const fbUserData = userSnapshot.val(); // For Firebase Realtime Database
+        // const fbUserData = userSnapshot.data(); // For Firestore
+        console.log(`Fetched user data:`, fbUserData);
+  
+        // Update user context with fetched data
+        setUser({
+          uid: userID,
+          email: fbUserData.email,
+          first_name: fbUserData.first_name,
+          created_at: fbUserData.created_at,
+          shared_lists: fbUserData.shared_lists,
+        });
+      } else {
+        console.error("User data not found in the database.");
+        setError("User data not found.");
+      }
     } catch (error) {
       setError(error instanceof Error ? error.message : 'An unknown error occurred');
     } finally {
       setIsLoading(false);
     }
   };
+  
+  
 
   const handleLogout = async () => {
     setUser(null);
@@ -85,7 +107,7 @@ const LoginPage: React.FC = () => {
       setError(error instanceof Error ? error.message : 'An unknown error occurred');
     }
   };
-
+  
   return (
     <div>
       <h1>Login</h1>
@@ -121,7 +143,6 @@ const LoginPage: React.FC = () => {
                 type="text"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                required
               />
             </div>
             <button type="submit" disabled={isLoading}>Log In</button>

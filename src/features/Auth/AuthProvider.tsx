@@ -5,12 +5,23 @@ export interface SharedLists {
     listId: string
 }
 
+export interface SharedUsers {
+    shared_user_id: string
+}
+
 export interface UserData {
     uid: string
     email: string
     first_name?: string
     created_at?: Timestamp
     shared_lists?: SharedLists[]
+}
+
+export interface ListData {
+    list_id: string
+    list_name: string
+    owner_id: string
+    shared_with: SharedUsers[]
 }
 
 // Define the type for the context

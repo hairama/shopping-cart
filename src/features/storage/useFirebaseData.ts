@@ -1,9 +1,12 @@
 // useFirebaseData.ts
-import { useState, useEffect } from 'react';
-import { ref, onValue } from 'firebase/database';
+import { useState, useEffect, useCallback } from 'react';
+import { ref, onValue, get } from 'firebase/database';
 import { database } from './firebase';
-import { UserData } from '../Auth/AuthProvider'
-import { ShoppingListItem } from '../../types/ShoppingListTypes';
+// import { UserData } from '../Auth/AuthProvider'
+import { ShoppingListItem, FirebaseShoppingItem } from '../../types/ShoppingListTypes';
+
+
+type SnapshotData = Record<string, FirebaseShoppingItem>
 
 // Generic Hook
 export function useFirebaseData<T>(path: string, transformData?: (snapshotData: any) => T) {
@@ -15,6 +18,7 @@ export function useFirebaseData<T>(path: string, transformData?: (snapshotData: 
     const dataRef = ref(database, path);
 
     const unsubscribe = onValue(dataRef, (snapshot) => {
+      console.log(`Data fetched for path: ${path}`, snapshot.val())
       if (snapshot.exists()) {
         const snapshotData = snapshot.val();
         if (transformData) {
@@ -36,24 +40,30 @@ export function useFirebaseData<T>(path: string, transformData?: (snapshotData: 
 
 // Utility Hook for User Data
 export function useUserData(uid: string) {
-  return useFirebaseData<UserData>(`users/${uid}`);
+  const userDataTable = ref(database, `users/${uid}`)
+  return get(userDataTable) 
+  
+  //return useFirebaseData<UserData>(`users/${uid}`);
 }
 
 // Utility Hook for Shopping List
+
 export function useShoppingList() {
-  return useFirebaseData<ShoppingListItem[]>(
-    'shopping-list',
-    (snapshotData) => {
-      return Object.entries(snapshotData || {}).map(([id, item]) => ({
-        id,
-        //@ts-ignore
-        name: item.name,
-         //@ts-ignore
-        status: item.status || 'on_shopping_list',
-      }));
-    }
-  );
+  const transformData = useCallback((snapshotData: SnapshotData) => {
+    return Object.entries(snapshotData || {}).map(([id, item]) => ({
+      id,
+      //@ts-ignore
+      name: item.name,
+      //@ts-ignore
+      status: item.status || 'on_shopping_list',
+    }));
+  }, []);
+
+  return useFirebaseData<ShoppingListItem[]>('shopping-list', transformData);
 }
+
+
+
 
 
 // // useFirebaseData.ts

@@ -30,9 +30,9 @@ function App() {
 
   useEffect(() => {
     // Set the local state when the Firebase data changes
-      if (shoppingListData !== null) {
+      if (shoppingListData) {
         setShoppingListInDb(shoppingListData)
-        let itemsInCart = shoppingListInDb.filter((item) => (item.status === "in_cart"))
+        let itemsInCart = shoppingListData.filter((item) => (item.status === "in_cart"))
         setCartItemCount(itemsInCart.length)
         console.log("I'm running!")
       }
@@ -46,13 +46,6 @@ function App() {
       setItemToAdd("")
     }
   
-  // useEffect(() => {
-  //   if (shoppingListInDb.length > 0) {
-  //     console.log("Me too!")
-  //     let itemsInCart = shoppingListInDb.filter((item) => (item.status === "in_cart"))
-  //         setCartItemCount(itemsInCart.length)
-  //     }
-  // }, [shoppingListInDb])
     
   
     function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
