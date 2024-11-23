@@ -27,7 +27,7 @@ function App() {
     status: "on_shopping_list"
   });
 
-  const [currentView, setCurrentView] = useState<string>("shopping-list")
+  const [currentView, setCurrentView] = useState<string>("home-page")
 
 
   useEffect(() => {
@@ -66,7 +66,7 @@ function App() {
       <AuthProvider>
       <ShoppingContext.Provider value={{shoppingListInDb, setShoppingListInDb}}>
         <div className="container">
-          <HomePage />
+          {currentView === 'home-page' && <HomePage />}
           
           
           
