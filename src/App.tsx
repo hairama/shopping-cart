@@ -1,6 +1,6 @@
 import React from "react"
 import { useState, useEffect } from 'react'
-import cat from './assets/cat.png'
+import CatPic from './components/CatPic'
 import './index.css'
 import ShoppingList from './components/ShoppingList'
 import CartButton from './components/CartButton'
@@ -73,7 +73,7 @@ function App() {
           {currentView === "login-page" && <LoginPage/>}
             {currentView === "shopping-list" && (
             <>
-              <img src={cat}/>
+              <CatPic/>
               <input 
                 type="text" 
                 id="input-field" 
