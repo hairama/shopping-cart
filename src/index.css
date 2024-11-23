@@ -111,21 +111,21 @@ ul li:hover {
   padding: 0;
   width: 1.75rem;
   height: 1.75rem;
-  position: absolute;
   right: 1.5rem;
   background-color: transparent;
-  align-self: center;
-  justify-self: center;
+  align-self: end;
+  justify-self: start;
 
 }
 
 .back-button {
   background-color: transparent;
-  position: absolute;
+  /* position: absolute; */
   margin: 0;
   padding: 0;
   height: 2.5rem;
   cursor: pointer;
+  align-self: start;
 }
 
 .back-arrow {
@@ -133,4 +133,11 @@ ul li:hover {
   padding: 0;
   width: 1.75rem;
   height: 1.75rem;
+}
+
+.list-of-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
 }

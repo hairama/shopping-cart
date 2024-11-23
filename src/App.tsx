@@ -4,28 +4,30 @@ import CatPic from './components/CatPic'
 import './index.css'
 import ShoppingList from './components/ShoppingList'
 import CartButton from './components/CartButton'
-import BackArrowButton from './components/BackArrowButton'
 import ShoppingCart from './features/ShoppingCart/ShoppingCart'
-import { ShoppingListItem } from "./types/ShoppingListTypes"
+import { ShoppingListItem, ShoppingContextValues } from "./types/ShoppingListTypes"
 import { useShoppingList, useFirebasePush } from "./features/storage/index"
 import LoginPage from "./features/Auth/LoginPage"
-import IconButton from "./components/IconButton"
 import { AuthProvider } from "./features/Auth/AuthProvider"
+import HomePage from "./features/HomePage/HomePage"
 
-const ShoppingContext = React.createContext({})
+
+const ShoppingContext = React.createContext<ShoppingContextValues | undefined>(undefined)
 
 function App() {
   const [itemToAdd, setItemToAdd] = useState("")
   const [shoppingListInDb, setShoppingListInDb] = useState<ShoppingListItem[]>([])
   const [cartItemCount, setCartItemCount] = useState<number>(0)
   const selectedStore: string = "Trader Joes"
-  const [currentView, setCurrentView] = useState<string>("shopping-list")
+  
   const shoppingListData = useShoppingList().data
   
   const pushData = useFirebasePush('shopping-list', {
     name: itemToAdd,
     status: "on_shopping_list"
   });
+
+  const [currentView, setCurrentView] = useState<string>("shopping-list")
 
 
   useEffect(() => {
@@ -58,18 +60,16 @@ function App() {
   if (shoppingListInDb === null) {
     return (<div>Loading...</div>)
   }
-
+  
   return (
     <>
       <AuthProvider>
       <ShoppingContext.Provider value={{shoppingListInDb, setShoppingListInDb}}>
         <div className="container">
-          <BackArrowButton 
-            setCurrentView={setCurrentView}/>
-          <IconButton 
-            iconUrl='../assets/circle-user-solid.svg'
-            onClick={()=>setCurrentView('login-page')}
-          />
+          <HomePage />
+          
+          
+          
           {currentView === "login-page" && <LoginPage/>}
             {currentView === "shopping-list" && (
             <>
