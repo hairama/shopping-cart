@@ -1,7 +1,7 @@
 import { ShoppingListProps, ShoppingListItem } from "../../types/ShoppingListTypes"
 import { useFirebaseUpdate } from "../storage/index"
 
-export default function CartList({ shoppingListInDb }: ShoppingListProps) {
+export default function ShoppingCartPage({ shoppingListInDb }: ShoppingListProps) {
    
     const toggleStatus = (item: ShoppingListItem) => {
         
@@ -26,7 +26,7 @@ export default function CartList({ shoppingListInDb }: ShoppingListProps) {
         )
         return (
             <>
-                <h1></h1>
+                <h1>Shopping Cart Page</h1>
                 <ul>                  
                 {shoppingListItems}
                 </ul>

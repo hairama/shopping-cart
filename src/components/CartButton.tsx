@@ -4,6 +4,9 @@ interface CartButtonProps {
     cartItemCount: number
 }
 
+//   const [cartItemCount, setCartItemCount] = useState<number>(0)
+//   const selectedStore: string = "Trader Joes"
+
 export default function CartButton({setCurrentView, cartItemCount, text}: CartButtonProps) {
     return (
         cartItemCount > 0 && <button 
