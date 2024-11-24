@@ -5,6 +5,7 @@ import { useAuth } from './AuthProvider';
 import { Timestamp } from 'firebase/firestore';
 import { useFirebaseUpdate, useUserData } from '../storage/index'
 import { UserData } from "../Auth/AuthProvider"
+import BackArrowButton from '../../components/BackArrowButton';
 
 // interface UserData {
 //   email: string;
@@ -110,6 +111,9 @@ const LoginPage: React.FC = () => {
   
   return (
     <div>
+      <BackArrowButton 
+        view={"home-page"}
+      />
       <h1>Login</h1>
       {user? (
         <div>

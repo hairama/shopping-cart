@@ -43,8 +43,8 @@ export default function ShoppingListPage() {
 
     return (
         <>
-            <p>Start Shopping List page</p>
             <BackArrowButton 
+              view={"home-page"}
             />
             <IconButton 
             iconUrl='../assets/gear-solid.svg'
@@ -64,10 +64,11 @@ export default function ShoppingListPage() {
                 >Add to list
             </button>
             <ul id="shopping-list">
-                <ShoppingList 
+            <ShoppingList 
                 shoppingListInDb={shoppingListInDb}
             />
             </ul>
+            
         </>
     )
 }

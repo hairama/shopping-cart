@@ -1,5 +1,11 @@
-import { Timestamp } from "firebase/firestore/lite";
+
 import React, { createContext, useContext, useState } from "react";
+
+
+const [currentView, setCurrentView] = useState<string>("list-mgmt-page") 
+
+// Create the context with a default value
+const ShoppingContext = createContext<AuthContextType | undefined>(undefined);
 
 export interface SharedLists {
     listId: string
@@ -30,8 +36,7 @@ interface AuthContextType {
   setUser: (user: UserData | null) => void;
 }
 
-// Create the context with a default value
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
 
 // Custom hook for using the AuthContext
 const useAuth = () => {
@@ -45,7 +50,7 @@ const useAuth = () => {
 // AuthProvider component
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<UserData | null>(null);
-;
+
   return (
     <AuthContext.Provider value={{ user, setUser }}>
       {children}
