@@ -9,6 +9,7 @@ export default function ListManagementPage() {
         <>
             <p>Start list management</p>
                 <BackArrowButton 
+                
                 />
                 <CatPic />
                 <p>Change list name</p>
@@ -37,6 +38,11 @@ export default function ListManagementPage() {
                     onClick={()=>console.log("adding List")}
                     >Share
                 </button>
+                <ul>
+                    <li>tony@baloney.com</li>
+                    <li>priya.schwartz@aol.com</li>
+                    <li>bezos@amazon.com</li>
+                </ul>
         </>
     )
 }

@@ -128,6 +128,10 @@ ul li:hover {
   align-self: start;
 }
 
+.back-button:hover {
+  background-color: transparent;
+}
+
 .back-arrow {
   margin: 0;
   padding: 0;
