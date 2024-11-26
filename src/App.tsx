@@ -21,8 +21,6 @@ import { useCurrentView } from "./features/HomePage/ViewProvider"
 //const ShoppingContext = React.createContext<ShoppingContextValues | undefined>(undefined)
 
 function App() {
-  
-  
   const { currentView} = useCurrentView()
 
   // const [shoppingListInDb, setShoppingListInDb] = useState<ShoppingListItem[]>([])

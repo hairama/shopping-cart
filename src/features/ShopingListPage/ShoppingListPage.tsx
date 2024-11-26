@@ -16,7 +16,7 @@ import { ShoppingListItem } from "../../types/ShoppingListTypes";
 
 export default function ShoppingListPage() {
     const [itemToAdd, setItemToAdd] = useState("")
-    const [shoppingListInDb, setShoppingListInDb] = useState<ShoppingListItem[]>([])
+    const [shoppingListInDb] = useState<ShoppingListItem[]>([])
 
     const pushData = useFirebasePush('shopping-list', {
         name: itemToAdd,
@@ -47,6 +47,7 @@ export default function ShoppingListPage() {
               view={"home-page"}
             />
             <IconButton 
+            view={"list-mgmt-page"}
             iconUrl='../assets/gear-solid.svg'
             />
             <CatPic />

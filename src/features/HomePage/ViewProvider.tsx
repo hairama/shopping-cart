@@ -14,7 +14,7 @@ interface ViewProviderProps {
 }
 
 function ViewProvider({ children }: ViewProviderProps) {
-  const [currentView, setCurrentView] = useState<string>('list-mgmt-page');
+  const [currentView, setCurrentView] = useState<string>('home-page');
 
   return (
     <CurrentViewContext.Provider value={{ currentView, setCurrentView }}>
