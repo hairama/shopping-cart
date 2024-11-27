@@ -28,15 +28,6 @@ export interface ListData {
     shared_with: SharedUsers[]
 }
 
-// ListData object model{
-//   list_id: 9383829
-//   list_name: "Trader Joe's"
-//   owner_id: 029394202
-//   shared_with: ["29304938", "209395777"]
-//   items: 
-//        {id:23l029i3o, name: "Peanuts", status: "in_cart", time_added: "123093948"}
-//        {id:23l029i3o, name: "Eggs", status: "on_list", time_added: "123093948"}
-// }
 // Define the type for the context
 interface AuthContextType {
   user: UserData | null;

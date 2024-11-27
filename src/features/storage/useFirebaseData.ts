@@ -6,6 +6,7 @@ import { database } from './firebase';
 import { ShoppingListItem, FirebaseShoppingItem } from '../../types/ShoppingListTypes';
 
 
+
 type SnapshotData = Record<string, FirebaseShoppingItem>
 
 // Generic Hook
@@ -60,6 +61,20 @@ export function useShoppingList() {
   }, []);
 
   return useFirebaseData<ShoppingListItem[]>('shopping-list', transformData);
+}
+
+type UserLists = Record<string, string>
+
+export function useUserLists(uid: string) {
+  const transformData = useCallback((snapshotData: UserLists) => {
+    return Object.entries(snapshotData || {}).map(([id, list_name]) => ({
+      id,
+      list_name,
+      // //@ts-ignore
+    }));
+  }, []);
+
+  return useFirebaseData(`users/${uid}/shared_lists/`, transformData);
 }
 
 

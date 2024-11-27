@@ -17,6 +17,7 @@ import ListManagementPage from "./features/ListManagementPage/ListManagementPage
 import { AuthProvider } from "./features/Auth/AuthProvider"
 import ShoppingListPage from "./features/ShopingListPage/ShoppingListPage"
 import { useCurrentView } from "./features/HomePage/ViewProvider"
+import { CurrentListProvider } from './features/HomePage/CurrentListProvider'
 
 //const ShoppingContext = React.createContext<ShoppingContextValues | undefined>(undefined)
 
@@ -39,12 +40,15 @@ function App() {
   return (
     <>
       <AuthProvider>
-          <div className="container">
+        <CurrentListProvider>
+        <div className="container">
             {currentView === 'home-page' && <HomePage />}
             {currentView === "login-page" && <LoginPage/>}
               {currentView === 'shop-page' && <ShoppingListPage />}
               {currentView === "list-mgmt-page" && <ListManagementPage/>}
           </div>
+        </CurrentListProvider>
+          
       </AuthProvider>
     </>
   )

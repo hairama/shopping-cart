@@ -8,6 +8,7 @@ import ShoppingList from "../../components/ShoppingList";
 
 // Hooks
 import { useFirebasePush } from "../storage";
+import { useCurrentList } from "../HomePage/CurrentListProvider";
 
 // Types
 import { ShoppingListItem } from "../../types/ShoppingListTypes";
@@ -17,8 +18,10 @@ import { ShoppingListItem } from "../../types/ShoppingListTypes";
 export default function ShoppingListPage() {
     const [itemToAdd, setItemToAdd] = useState("")
     const [shoppingListInDb] = useState<ShoppingListItem[]>([])
+    const listId = useCurrentList().currentList
+    console.log(listId)
 
-    const pushData = useFirebasePush('shopping-list', {
+    const pushData = useFirebasePush(`lists/${listId}/items/`, {
         name: itemToAdd,
         status: "on_shopping_list"
       });
@@ -31,8 +34,6 @@ export default function ShoppingListPage() {
         }
         setItemToAdd("")
       }
-    
-      
     
       function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
         if (event.key === "Enter") {
