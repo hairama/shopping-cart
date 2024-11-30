@@ -1,9 +1,6 @@
 
 import React, { createContext, useContext, useState } from "react";
-
-
-// Create the context with a default value
-const ShoppingContext = createContext<AuthContextType | undefined>(undefined);
+import { Timestamp } from "firebase/firestore";
 
 export interface SharedLists {
     listId: string
@@ -34,6 +31,8 @@ interface AuthContextType {
   setUser: (user: UserData | null) => void;
 }
 
+// Create the context with a default value
+//const ShoppingContext = createContext<AuthContextType | undefined>(undefined);
 
 
 // Custom hook for using the AuthContext

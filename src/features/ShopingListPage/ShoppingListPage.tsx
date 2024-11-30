@@ -17,9 +17,8 @@ import { ShoppingListItem } from "../../types/ShoppingListTypes";
 
 export default function ShoppingListPage() {
     const [itemToAdd, setItemToAdd] = useState("")
-    const [shoppingListInDb] = useState<ShoppingListItem[]>([])
+    const [shoppingListInDb, setShoppingListInDb] = useState<ShoppingListItem[]>([])
     const listId = useCurrentList().currentList
-    console.log(listId)
 
     const pushData = useFirebasePush(`lists/${listId}/items/`, {
         name: itemToAdd,
@@ -29,7 +28,7 @@ export default function ShoppingListPage() {
      // Adds items to firebase
      function getInput(): void {
         if(itemToAdd !== "") {
-          console.log(itemToAdd)
+          //console.log(itemToAdd)
             pushData();
         }
         setItemToAdd("")
@@ -67,7 +66,9 @@ export default function ShoppingListPage() {
             </button>
             <ul id="shopping-list">
             <ShoppingList 
+                setShoppingListInDb={setShoppingListInDb}
                 shoppingListInDb={shoppingListInDb}
+                listId={listId}
             />
             </ul>
             

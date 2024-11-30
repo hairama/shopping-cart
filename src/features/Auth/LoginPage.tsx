@@ -39,8 +39,7 @@ const LoginPage: React.FC = () => {
         shared_lists: []
       }
       setUser(userData)
-      console.log(userData)
-      console.log(user === null)
+      //console.log(userData)
       
         function toFirebaseUserData(user: UserData): Omit<UserData, 'uid'> {
             const { uid, ...data } = user;
@@ -69,14 +68,14 @@ const LoginPage: React.FC = () => {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const loggedInUser = userCredential.user;
       const userID = loggedInUser.uid;
-      console.log(`User ID fetched: ${userID}`);
+      //console.log(`User ID fetched: ${userID}`);
   
       // Fetch user data from Firestore/Database
       const userSnapshot = await useUserData(userID); // Assuming useUserData returns a promise
       if (userSnapshot.exists()) {
         const fbUserData = userSnapshot.val(); // For Firebase Realtime Database
         // const fbUserData = userSnapshot.data(); // For Firestore
-        console.log(`Fetched user data:`, fbUserData);
+       // console.log(`Fetched user data:`, fbUserData);
   
         // Update user context with fetched data
         setUser({
