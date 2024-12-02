@@ -1,17 +1,37 @@
 import { ShoppingListItem, ShoppingListProps } from "../types/ShoppingListTypes"
 import { useFirebaseUpdate, useShoppingList } from "../features/storage/index"
+import { useEffect, useState } from "react" 
 
 
 
 
-export default function ShoppingList({ setShoppingListInDb, shoppingListInDb, listId }: ShoppingListProps) {
-    const itemList:any = useShoppingList(listId)
-    console.log(`Item List: ${itemList}`)
-    setShoppingListInDb(itemList)
+export default function ShoppingList({ listId }: ShoppingListProps) {
+    //console.log("Rendering ShoppingList Component")
+    
+    const [shoppingListInDb, setShoppingListInDb] = useState<ShoppingListItem[]>([])
+    const itemList: any = useShoppingList(listId)
+    //console.log(`item list: ${itemList.data}`)
+    useEffect(() => {
+        console.log("setting ShoppingList")
+        
+        if (itemList !== shoppingListInDb) {
+            console.log("shoppinglist set to item list")
+            setShoppingListInDb(itemList.data)
+
+        }
+    }, [])
+
+    //console.log(`Item List: ${itemList}`)
+    //console.log(`Item List:`, JSON.stringify(itemList, null, 2));
+    // listId: ${listId}
+    // itemList: ${JSON.stringify(itemList, null, 2)}
+
+    const newList = shoppingListInDb
+    console.log(newList)
     console.log(`ShoppingList component: 
-                    listId: ${listId}
-                    itemList: ${itemList}
-                    shopLisInDb: ${shoppingListInDb}`)
+                    
+                    shopListInDb: ${JSON.stringify(shoppingListInDb, null, 2)}`)
+
     // Toggle item status
     const toggleStatus = (item: ShoppingListItem) => {
         
@@ -22,11 +42,12 @@ export default function ShoppingList({ setShoppingListInDb, shoppingListInDb, li
         });
         updateData(); // Trigger the update operation
     };
-    
+
+    console.log(`New list length:  ${newList.length}`)
     //console.log(`Shopping List in DB: ${shoppingListInDb}`)
 
-    if (shoppingListInDb.length > 0) {
-        const shoppingListItems = shoppingListInDb.map((item: ShoppingListItem) => 
+    if (newList.length > 0) {
+        const shoppingListItems = newList.map((item: ShoppingListItem) => 
             item.status === "on_shopping_list" &&
             <li 
                 key={item.id}

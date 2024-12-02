@@ -22,6 +22,7 @@ import { CurrentListProvider } from './features/HomePage/CurrentListProvider'
 //const ShoppingContext = React.createContext<ShoppingContextValues | undefined>(undefined)
 
 function App() {
+  console.log("App is rendering")
   const { currentView} = useCurrentView()
 
   // const [shoppingListInDb, setShoppingListInDb] = useState<ShoppingListItem[]>([])
@@ -41,14 +42,13 @@ function App() {
     <>
       <AuthProvider>
         <CurrentListProvider>
-        <div className="container">
+          <div className="container">
             {currentView === 'home-page' && <HomePage />}
             {currentView === "login-page" && <LoginPage/>}
-              {currentView === 'shop-page' && <ShoppingListPage />}
-              {currentView === "list-mgmt-page" && <ListManagementPage/>}
+            {currentView === 'shop-page' && <ShoppingListPage />}
+            {currentView === "list-mgmt-page" && <ListManagementPage/>}
           </div>
-        </CurrentListProvider>
-          
+        </CurrentListProvider>  
       </AuthProvider>
     </>
   )

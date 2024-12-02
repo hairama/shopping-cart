@@ -52,39 +52,39 @@ export function useUserData(uid: string) {
 // Utility Hook for Shopping List
 export function useShoppingList(list: string) {
   let objArray = []
-  const transformData = useCallback((snapshotData: SnapshotData) => {
-    //console.log("Snapshot data:", JSON.stringify(snapshotData, null, 2));
-   //console.log(`Object entries returns: ${Object.entries(snapshotData)}`)
-    let objEntries = Object.entries(snapshotData || {})
-    
-    for (let i = 0; i < objEntries.length; i++) {
-      let currentItem = objEntries[i]
-      let currentItemID = currentItem[0]
-      let currentItemName = currentItem[1].name
-      let currentItemStatus = currentItem[1].status
-      // console.log(` current item ${currentItem}
-      //   currentItemID ${currentItemID}
-      //     currentItemValue ${currentItemName}
-      //     currentItemStatus ${currentItemStatus}`)
-      const newItem:ShoppingListItem = {
-        id: currentItemID,
-        name: currentItemName,
-        status: currentItemStatus || 'on_shopping_list'
-      }
-      objArray.push(newItem)
-    
-    }
-    console.log(objArray) 
-    return objArray
-    // let objArray = objEntries.map((stuff) => {
+    const transformData = useCallback((snapshotData: SnapshotData) => {
+      console.log("Snapshot data:", JSON.stringify(snapshotData, null, 2));
+    //console.log(`Object entries returns: ${Object.entries(snapshotData)}`)
+      let objEntries = Object.entries(snapshotData || {})
       
-    // }))
-    // return Object.entries(snapshotData || {}).map(([id, item]) => ({
-    //   id,
-    //   name: item.name,
-    //   status: item.status || 'on_shopping_list', // Default status if none provided
-    // }));
-  }, []);
+      for (let i = 0; i < objEntries.length; i++) {
+        let currentItem = objEntries[i]
+        let currentItemID = currentItem[0]
+        let currentItemName = currentItem[1].name
+        let currentItemStatus = currentItem[1].status
+        // console.log(` current item ${currentItem}
+        //   currentItemID ${currentItemID}
+        //     currentItemValue ${currentItemName}
+        //     currentItemStatus ${currentItemStatus}`)
+        const newItem:ShoppingListItem = {
+          id: currentItemID,
+          name: currentItemName,
+          status: currentItemStatus || 'on_shopping_list'
+        }
+        objArray.push(newItem)
+      
+      }
+      console.log(objArray) 
+      return objArray
+      // let objArray = objEntries.map((stuff) => {
+        
+      // }))
+      // return Object.entries(snapshotData || {}).map(([id, item]) => ({
+      //   id,
+      //   name: item.name,
+      //   status: item.status || 'on_shopping_list', // Default status if none provided
+      // }));
+    }, []);
   
   return useFirebaseData<ShoppingListItem[]>(`lists/${list}/items/`, transformData);
 }

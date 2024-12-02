@@ -1,35 +1,16 @@
 
 import React, { createContext, useContext, useState } from "react";
 import { Timestamp } from "firebase/firestore";
+import { AuthContext, UserData } from "../Auth/AuthProvider"
+import { ShoppingListItem } from "../../types/ShoppingListTypes";
 
-export interface SharedLists {
-    listId: string
-}
-
-export interface SharedUsers {
-    shared_user_id: string
-}
-
-export interface UserData {
-    uid: string
-    email: string
-    first_name?: string
-    created_at?: Timestamp
-    shared_lists?: SharedLists[]
-}
-
-export interface ListData {
-    list_id: string
-    list_name: string
-    owner_id: string
-    shared_with: SharedUsers[]
-}
 
 // Define the type for the context
-interface AuthContextType {
-  user: UserData | null;
-  setUser: (user: UserData | null) => void;
+interface ItemContextType {
+  
 }
+
+const [shoppingListInDb, setShoppingListInDb] = useState<ShoppingListItem[]>([])
 
 // Create the context with a default value
 //const ShoppingContext = createContext<AuthContextType | undefined>(undefined);

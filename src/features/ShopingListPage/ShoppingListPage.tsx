@@ -16,8 +16,9 @@ import { ShoppingListItem } from "../../types/ShoppingListTypes";
 
 
 export default function ShoppingListPage() {
+    console.log("Rendering ShopPage")
     const [itemToAdd, setItemToAdd] = useState("")
-    const [shoppingListInDb, setShoppingListInDb] = useState<ShoppingListItem[]>([])
+    //const [shoppingListInDb, setShoppingListInDb] = useState<ShoppingListItem[]>([])
     const listId = useCurrentList().currentList
 
     const pushData = useFirebasePush(`lists/${listId}/items/`, {
@@ -66,8 +67,6 @@ export default function ShoppingListPage() {
             </button>
             <ul id="shopping-list">
             <ShoppingList 
-                setShoppingListInDb={setShoppingListInDb}
-                shoppingListInDb={shoppingListInDb}
                 listId={listId}
             />
             </ul>

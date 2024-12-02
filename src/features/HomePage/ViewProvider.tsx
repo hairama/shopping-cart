@@ -1,4 +1,4 @@
-import React, { useState, createContext, ReactNode, useContext } from 'react';
+import React, { useState, createContext, ReactNode, useContext, useMemo } from 'react';
 
 export interface CurrentViewTypes {
   currentView: string;
@@ -16,8 +16,10 @@ interface ViewProviderProps {
 function ViewProvider({ children }: ViewProviderProps) {
   const [currentView, setCurrentView] = useState<string>('home-page');
 
+  const value = useMemo(() => ({ currentView, setCurrentView}), [currentView, setCurrentView])
+  
   return (
-    <CurrentViewContext.Provider value={{ currentView, setCurrentView }}>
+    <CurrentViewContext.Provider value={value}>
       {children}
     </CurrentViewContext.Provider>
   );
