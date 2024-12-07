@@ -16,6 +16,7 @@ const LoginPage: React.FC = () => {
   const { user, setUser } = useAuth()
   const [uidForFetch] = useState<string | null>(null)
 
+  //@ts-ignore
   let fbUserData = uidForFetch ? useUserData(uidForFetch) : null;
 
   const handleSignUp = async (e: React.FormEvent) => {

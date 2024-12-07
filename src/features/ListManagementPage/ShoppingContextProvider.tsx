@@ -1,20 +1,6 @@
 
-import React, { createContext, useContext, useState } from "react";
-import { Timestamp } from "firebase/firestore";
+import React, { useContext, useState } from "react";
 import { AuthContext, UserData } from "../Auth/AuthProvider"
-import { ShoppingListItem } from "../../types/ShoppingListTypes";
-
-
-// Define the type for the context
-interface ItemContextType {
-  
-}
-
-const [shoppingListInDb, setShoppingListInDb] = useState<ShoppingListItem[]>([])
-
-// Create the context with a default value
-//const ShoppingContext = createContext<AuthContextType | undefined>(undefined);
-
 
 // Custom hook for using the AuthContext
 const useAuth = () => {
