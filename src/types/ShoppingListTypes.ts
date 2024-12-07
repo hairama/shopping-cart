@@ -1,11 +1,14 @@
 export interface ShoppingListItem {
     id: string,
     name: string,
-    status: string
+    status: any
 }
 
 export interface ShoppingListProps {
-    shoppingListInDb: ShoppingListItem[]
+  // setShoppingListInDb: React.Dispatch<React.SetStateAction<ShoppingListItem[]>>  
+  // shoppingListInDb: ShoppingListItem[]
+  listId: string
+  listName: string
   }
 
   export interface ShoppingContextValues {

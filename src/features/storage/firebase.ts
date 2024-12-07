@@ -12,10 +12,6 @@ const appSettings = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-console.log('Database URL:', import.meta.env.VITE_FIREBASE_DATABASE_URL);
-console.log('authDomain:', import.meta.env.VITE_FIREBASE_AUTH_DOMAIN);
-
-
 const app = initializeApp(appSettings)
 const database = getDatabase(app);
 const auth = getAuth(app);
