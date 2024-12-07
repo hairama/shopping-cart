@@ -1,38 +1,32 @@
-import { ShoppingListProps, ShoppingListItem } from "../../types/ShoppingListTypes"
-import { useFirebaseUpdate } from "../storage/index"
+//import { useState } from "react"
 
-export default function ShoppingCartPage({ shoppingListInDb }: ShoppingListProps) {
-   
-    const toggleStatus = (item: ShoppingListItem) => {
-        
-        const updatedStatus = item.status === "on_shopping_list" ? "in_cart" : "on_shopping_list";
-        
-        // Call the update hook with the new status
-        const updateData = useFirebaseUpdate(`shopping-list/${item.id}`, {
-          status: updatedStatus
-        });
-        updateData(); // Trigger the update operation
-    };
+// Components
+import CatPic from "../../components/CatPic";
+import BackArrowButton from "../../components/BackArrowButton";
+import ShoppingList from "../../components/ShoppingList";
 
+// Hooks
+import { useCurrentList } from "../HomePage/CurrentListProvider";
 
-    if (shoppingListInDb.length > 0) {
-        const shoppingListItems = shoppingListInDb.map((item) => 
-            item.status === "in_cart" &&
-            <li 
-                key={item.id}
-                onClick={()=>toggleStatus(item)}
-            >{item.name}
-            </li>
-        )
-        return (
-            <>
-                <h1>Shopping Cart Page</h1>
-                <ul>                  
-                {shoppingListItems}
-                </ul>
-            </>
-        ) 
-    }   else {
-        return <p>No items here... yet</p>
-    }
+export default function ShoppingCartPage() {
+
+    const list = useCurrentList().currentList
+    
+    return (
+        <>
+            <div className="navHeaderFlexContainer">
+              <BackArrowButton 
+                view={"shop-page"}
+              />
+            </div>
+            <CatPic />
+            <ul className="cart-list shopping-list">
+            <ShoppingList 
+                listId={list.listId}
+                listName={list.listName}
+            />
+            </ul>
+            
+        </>
+    )
 }

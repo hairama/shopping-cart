@@ -1,19 +1,18 @@
+import { useCurrentView } from "../features/HomePage/ViewProvider"
 interface CartButtonProps {
-    //setCurrentView: (view: string) => void,
+    view: string
     cartItemCount: number
     listName: string
-    
 }
 
-//   const [cartItemCount, setCartItemCount] = useState<number>(0)
-//   const selectedStore: string = "Trader Joes"
-//onClick={()=>setCurrentView("shopping-cart")}
+export default function CartButton({listName, cartItemCount, view}: CartButtonProps) {
+    const { setCurrentView } = useCurrentView()
 
-export default function CartButton({listName, cartItemCount}: CartButtonProps) {
     return (
         cartItemCount > 0 && <button 
             role="button" 
             className='cart-button'
+            onClick={()=>setCurrentView(view)}
             >
             <div className="cart-btn-text">{listName}</div>
             <span className="cart-button-count">{cartItemCount}</span>

@@ -22,7 +22,7 @@ export function useFirebaseData<T>(path: string, transformData?: (snapshotData: 
     const dataRef = ref(database, path);
 
     const unsubscribe = onValue(dataRef, (snapshot) => {
-      console.log(`Data fetched for path: ${path}`, snapshot.val())
+      //console.log(`Data fetched for path: ${path}`, snapshot.val())
       if (snapshot.exists()) {
         const snapshotData = snapshot.val();
         if (transformData) {
@@ -61,7 +61,6 @@ export function useShoppingList(list: string) {
 
   return useFirebaseData<ShoppingListItem[]>(`lists/${list}/items/`, transformData);
 }
-
 
 type UserLists = Record<string, string>
 

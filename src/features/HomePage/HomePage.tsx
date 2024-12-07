@@ -31,7 +31,6 @@ export default function HomePage() {
                     const addListToUser = useFirebaseUpdate(`users/${uid}/shared_lists/`, {[newListId]: newListName})
                     addListToUser()
 
-                    // setCurrentList(newListId)
                 }    
             }
         } 

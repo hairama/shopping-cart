@@ -7,14 +7,10 @@ export function useFirebasePush(path: string, data: any) {
   const pushData = async () => {
    
     const dataRef = ref(database, path)
-    // const db = getDatabase();
-    // const dataRef = ref(db, path);
 
     try {
       await push(dataRef, data);
-      // console.log('Data pushed successfully');
       const newRef = await push(dataRef, data)
-      //console.log(newRef.key)
       return newRef.key
       
     } catch (error) {

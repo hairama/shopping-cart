@@ -2,40 +2,34 @@ import { ShoppingListItem, ShoppingListProps } from "../types/ShoppingListTypes"
 import { useFirebaseUpdate, useShoppingList } from "../features/storage/index";
 import { useEffect, useState } from "react";
 import CartButton from "./CartButton";
+import ClearCartButton from "./ClearCartButton";
+import { useCurrentView } from "../features/HomePage/ViewProvider";
+//import { batchUpdateStatus } from "../features/storage/useFirebaseUpdate";
 
 export default function ShoppingList({listId, listName}: ShoppingListProps) {
-    const [shoppingListInDb, setShoppingListInDb] = useState<ShoppingListItem[]>([]);
-    //const [shoppingListItems, setShoppingListItems] = useState<ShoppingListItem[]>([])
-    let itemList: any  = useShoppingList(listId).data;
-    //let shoppingListItemArray: any = []
-    //let cartItemCount = 0
     
-    // function renderListItems() {
-    //     cartItemCount = createCartItemCount()
-    //     //shoppingListItemArray = createShoppingListItems()
-    //     //setShoppingListItems(shoppingListItemArray)
-    //     //setShoppingListItems(shoppingListItemArray)
-        
-    //     console.log(`shoppingListItems: ${shoppingListItems}`)
-        
-    // }
+    const { currentView } = useCurrentView()
+    const [shoppingListInDb, setShoppingListInDb] = useState<ShoppingListItem[]>([]);
+    let itemList: any  = useShoppingList(listId).data;
 
     useEffect(() => {
-        console.log(`useEffect ran`)
         if (itemList) {
             setShoppingListInDb(itemList)
-            //console.log(`itemList: ${itemList[0].name}`)
-            // shoppingListItemArray = createShoppingListItems()
-            // setShoppingListItems(shoppingListItemArray)
-            // renderListItems()   
         } 
     }, [itemList]);
 
+    // Calculate cart item count
+    const cartItemCount = shoppingListInDb.filter(
+        (item) => item.status === "in_cart"
+        ).length
+    
+
     // Filter and map shopping list items
+    const listStatus:string = currentView === 'shop-page' ? 'on_shopping_list' : 'in_cart'
+
     const shoppingListItems = shoppingListInDb
-        .filter((item) => item.status === "on_shopping_list")
+        .filter((item) => item.status  === listStatus)
         .map((item) => {
-            console.log(`item ${item.name}`)
             return (
                 <li 
                     key={item.id} 
@@ -45,15 +39,7 @@ export default function ShoppingList({listId, listName}: ShoppingListProps) {
             )
         }       
         );
-        //console.log(`tempArray: ${tempArray}`)
-    
-    
-    // Calculate cart item count
-    const cartItemCount = shoppingListInDb.filter(
-        (item) => item.status === "in_cart"
-        ).length
 
-    
     // Toggle item status
     const toggleStatus = (item: ShoppingListItem) => {
         const updatedStatus =
@@ -62,19 +48,31 @@ export default function ShoppingList({listId, listName}: ShoppingListProps) {
         const updateData = useFirebaseUpdate(`lists/${listId}/items/${item.id}`, {
             status: updatedStatus,
         });
-        updateData(); // This triggers Firebase updates, which will eventually update `itemList`
-    };
+        updateData(); 
+    }; 
 
     if (shoppingListInDb.length === 0) {
         return <p>No items here... yet</p>;
     } else {
-
         return (
             <>
                 {shoppingListItems}
-                <CartButton listName={listName} cartItemCount={cartItemCount} />
+                {currentView === "shop-page" &&
+                    <CartButton 
+                        listName={listName} 
+                        cartItemCount={cartItemCount}
+                        view='cart-page'
+                    />
+                }
+                { currentView === "cart-page" && 
+                    <ClearCartButton 
+                        shoppingListInDb={shoppingListInDb}
+                        cartItemCount={cartItemCount}
+                        listId={listId}
+                    />
+                }
+                
             </>
         );
     }
-    
 }

@@ -71,10 +71,16 @@ ul li:hover {
   cursor: pointer;
 }
 
-#shopping-list {
+.shopping-list {
   /* display: flex; */
   justify-content: center;
   margin-bottom: 10vh;
+}
+
+.cart-list {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
 }
 
 .cart-button {
@@ -86,11 +92,12 @@ ul li:hover {
   position: fixed;
   bottom: 6vh;
   justify-self: center;
+  align-self: center;
   margin: 0 auto;
   min-width: 15rem;
   border: 0.5px solid rgba(58, 56, 56, 0.165);
-  /* align-items: center; */
-  /* justify-content: center; */
+  align-items: center;
+  justify-content: center;
 }
 
 .cart-button-text {
@@ -115,6 +122,7 @@ ul li:hover {
   height: 1.25rem;
   width: 1.25rem;
   margin: auto 0 auto 0.5rem;
+  align-self: center;
 }
 
 .icon-button-top-right {
@@ -136,7 +144,6 @@ ul li:hover {
 
 .back-button {
   background-color: transparent;
-  /* position: absolute; */
   margin: 0;
   padding: 0;
   height: 2.5rem;

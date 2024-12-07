@@ -16,8 +16,3 @@ export function useFirebaseRemove(path: string) {
 
   return removeData;
 }
-
-
-// let exactLocationOfItemInDB = ref(database, `shoppingList/${itemID}`)
-        
-//     remove(exactLocationOfItemInDB)

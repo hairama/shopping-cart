@@ -10,7 +10,6 @@ export interface InputButtonProps {
 const InputButton: React.FC<InputButtonProps> = ({ onClick, text, disabled = false }) => {
   return (
     <button 
-      
       onClick={onClick} 
       disabled={disabled}>
       {text}

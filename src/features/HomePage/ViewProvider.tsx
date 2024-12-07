@@ -35,15 +35,3 @@ function useCurrentView() {
 }
 
 export { ViewProvider, useCurrentView };
-
-
-  /*
-    What is needed for global context?
-    1. Log in state
-    2. User info (firebase permissions)
-    3. current-view 
-    4. Related types?
-    5. 
-
-/ const ShoppingContext = React.createContext<ShoppingContextValues | undefined>(undefined)
-  */

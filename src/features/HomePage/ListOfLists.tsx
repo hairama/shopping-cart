@@ -28,15 +28,13 @@ export default function ListOfLists() {
         listElements = getListData.map((list: any) => 
           {
             const id:string = list.id
-            //const listLoad = React.useMemo(()=> {loadSelectedList(id)},[])
             return (
                     <InputButton
                       key={id}
                       onClick={() =>loadSelectedList(list)}
                       text={list.list_name}
                     />
-            )
-      
+            )     
         }
       ) 
     }    

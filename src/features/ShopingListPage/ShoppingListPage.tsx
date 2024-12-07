@@ -10,9 +10,6 @@ import ShoppingList from "../../components/ShoppingList";
 import { useFirebasePush } from "../storage";
 import { useCurrentList } from "../HomePage/CurrentListProvider";
 
-// // Types
-// import { ShoppingListItem } from "../../types/ShoppingListTypes";
-
 export default function ShoppingListPage() {
     const [itemToAdd, setItemToAdd] = useState("")
     const list = useCurrentList().currentList
@@ -60,7 +57,7 @@ export default function ShoppingListPage() {
                 onClick={getInput}
                 >Add to list
             </button>
-            <ul id="shopping-list">
+            <ul className="shopping-list">
             <ShoppingList 
                 listId={list.listId}
                 listName={list.listName}

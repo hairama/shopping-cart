@@ -1,6 +1,7 @@
 // useFirebaseUpdate.ts
 import { ref, update } from 'firebase/database';
 import { database } from './firebase';
+import { ShoppingListItem } from '../../types/ShoppingListTypes';
 
 export function useFirebaseUpdate(path: string, data: any) {
   const updateData = async () => {
@@ -16,3 +17,16 @@ export function useFirebaseUpdate(path: string, data: any) {
 
   return updateData;
 }
+
+export function batchUpdateStatus(listId: string, itemsToUpdate: ShoppingListItem[], newStatus: string) {
+  const updates: Record<string, any> = {};
+  
+  itemsToUpdate.forEach(item => {
+    updates[`lists/${listId}/items/${item.id}/status`] = newStatus;
+  });
+
+  return update(ref(database), updates)
+    .then(() => console.log('Batch update successful'))
+    .catch(error => console.error('Batch update failed', error));
+}
+
