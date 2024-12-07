@@ -1,64 +1,80 @@
-import { ShoppingListItem, ShoppingListProps } from "../types/ShoppingListTypes"
-import { useFirebaseUpdate, useShoppingList } from "../features/storage/index"
-import { useEffect, useState } from "react" 
+import { ShoppingListItem, ShoppingListProps } from "../types/ShoppingListTypes";
+import { useFirebaseUpdate, useShoppingList } from "../features/storage/index";
+import { useEffect, useState } from "react";
+import CartButton from "./CartButton";
 
-
-
-
-export default function ShoppingList({ listId }: ShoppingListProps) {
-    //console.log("Rendering ShoppingList Component")
+export default function ShoppingList({listId, listName}: ShoppingListProps) {
+    const [shoppingListInDb, setShoppingListInDb] = useState<ShoppingListItem[]>([]);
+    //const [shoppingListItems, setShoppingListItems] = useState<ShoppingListItem[]>([])
+    let itemList: any  = useShoppingList(listId).data;
+    //let shoppingListItemArray: any = []
+    //let cartItemCount = 0
     
-    const [shoppingListInDb, setShoppingListInDb] = useState<ShoppingListItem[]>([])
-    const itemList: any = useShoppingList(listId)
-    //console.log(`item list: ${itemList.data}`)
-    useEffect(() => {
-        console.log("setting ShoppingList")
+    // function renderListItems() {
+    //     cartItemCount = createCartItemCount()
+    //     //shoppingListItemArray = createShoppingListItems()
+    //     //setShoppingListItems(shoppingListItemArray)
+    //     //setShoppingListItems(shoppingListItemArray)
         
-        if (itemList !== shoppingListInDb) {
-            console.log("shoppinglist set to item list")
-            setShoppingListInDb(itemList.data)
+    //     console.log(`shoppingListItems: ${shoppingListItems}`)
+        
+    // }
 
-        }
-    }, [])
+    useEffect(() => {
+        console.log(`useEffect ran`)
+        if (itemList) {
+            setShoppingListInDb(itemList)
+            //console.log(`itemList: ${itemList[0].name}`)
+            // shoppingListItemArray = createShoppingListItems()
+            // setShoppingListItems(shoppingListItemArray)
+            // renderListItems()   
+        } 
+    }, [itemList]);
 
-    //console.log(`Item List: ${itemList}`)
-    //console.log(`Item List:`, JSON.stringify(itemList, null, 2));
-    // listId: ${listId}
-    // itemList: ${JSON.stringify(itemList, null, 2)}
+    // Filter and map shopping list items
+    const shoppingListItems = shoppingListInDb
+        .filter((item) => item.status === "on_shopping_list")
+        .map((item) => {
+            console.log(`item ${item.name}`)
+            return (
+                <li 
+                    key={item.id} 
+                    onClick={() => toggleStatus(item)}>
+                    {item.name}
+                </li>
+            )
+        }       
+        );
+        //console.log(`tempArray: ${tempArray}`)
+    
+    
+    // Calculate cart item count
+    const cartItemCount = shoppingListInDb.filter(
+        (item) => item.status === "in_cart"
+        ).length
 
-    const newList = shoppingListInDb
-    console.log(newList)
-    console.log(`ShoppingList component: 
-                    
-                    shopListInDb: ${JSON.stringify(shoppingListInDb, null, 2)}`)
-
+    
     // Toggle item status
     const toggleStatus = (item: ShoppingListItem) => {
-        
-        const updatedStatus = item.status === "on_shopping_list" ? "in_cart" : "on_shopping_list";
-        // Call the update hook with the new status
+        const updatedStatus =
+            item.status === "on_shopping_list" ? "in_cart" : "on_shopping_list";
+
         const updateData = useFirebaseUpdate(`lists/${listId}/items/${item.id}`, {
-          status: updatedStatus
+            status: updatedStatus,
         });
-        updateData(); // Trigger the update operation
+        updateData(); // This triggers Firebase updates, which will eventually update `itemList`
     };
 
-    console.log(`New list length:  ${newList.length}`)
-    //console.log(`Shopping List in DB: ${shoppingListInDb}`)
+    if (shoppingListInDb.length === 0) {
+        return <p>No items here... yet</p>;
+    } else {
 
-    if (newList.length > 0) {
-        const shoppingListItems = newList.map((item: ShoppingListItem) => 
-            item.status === "on_shopping_list" &&
-            <li 
-                key={item.id}
-                onClick={()=>toggleStatus(item)}
-            >{item.name}
-            </li>
-        )
         return (
-            shoppingListItems
-        ) 
-    }   else {
-        return <p>No items here... yet</p>
+            <>
+                {shoppingListItems}
+                <CartButton listName={listName} cartItemCount={cartItemCount} />
+            </>
+        );
     }
+    
 }

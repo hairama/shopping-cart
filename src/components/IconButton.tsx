@@ -16,7 +16,7 @@ export default function IconButton({ view, iconUrl }: IconButtonProps) {
             className='icon-button-top-right'
             onClick={()=>setCurrentView(view)}
         >
-                <img className='back-arrow' src={(iconUrl)} alt="icon" />
+                <img className='icon-image-top-right' src={(iconUrl)} alt="icon" />
         </button> 
     )
 }

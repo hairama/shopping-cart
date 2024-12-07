@@ -14,6 +14,7 @@ export default function HomePage() {
     const {setCurrentList} = useCurrentList()
     
     async function createNewList(newListName:string, uid:string) {
+        setCurrentList({listId: "none", listName: "list name"})
         if (newListName !== null) {
 
             if (user !== null) {
@@ -30,7 +31,7 @@ export default function HomePage() {
                     const addListToUser = useFirebaseUpdate(`users/${uid}/shared_lists/`, {[newListId]: newListName})
                     addListToUser()
 
-                    setCurrentList(newListId)
+                    // setCurrentList(newListId)
                 }    
             }
         } 

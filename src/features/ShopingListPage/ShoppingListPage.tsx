@@ -10,18 +10,13 @@ import ShoppingList from "../../components/ShoppingList";
 import { useFirebasePush } from "../storage";
 import { useCurrentList } from "../HomePage/CurrentListProvider";
 
-// Types
-import { ShoppingListItem } from "../../types/ShoppingListTypes";
-
-
+// // Types
+// import { ShoppingListItem } from "../../types/ShoppingListTypes";
 
 export default function ShoppingListPage() {
-    console.log("Rendering ShopPage")
     const [itemToAdd, setItemToAdd] = useState("")
-    //const [shoppingListInDb, setShoppingListInDb] = useState<ShoppingListItem[]>([])
-    const listId = useCurrentList().currentList
-
-    const pushData = useFirebasePush(`lists/${listId}/items/`, {
+    const list = useCurrentList().currentList
+    const pushData = useFirebasePush(`lists/${list.listId}/items/`, {
         name: itemToAdd,
         status: "on_shopping_list"
       });
@@ -29,7 +24,6 @@ export default function ShoppingListPage() {
      // Adds items to firebase
      function getInput(): void {
         if(itemToAdd !== "") {
-          //console.log(itemToAdd)
             pushData();
         }
         setItemToAdd("")
@@ -41,16 +35,17 @@ export default function ShoppingListPage() {
         }
       }
     
-
     return (
         <>
-            <BackArrowButton 
-              view={"home-page"}
-            />
-            <IconButton 
-            view={"list-mgmt-page"}
-            iconUrl='../assets/gear-solid.svg'
-            />
+            <div className="navHeaderFlexContainer">
+              <BackArrowButton 
+                view={"home-page"}
+              />
+              <IconButton 
+              view={"list-mgmt-page"}
+              iconUrl='../assets/gear-solid.svg'
+              />
+            </div>
             <CatPic />
             <input 
                 type="text" 
@@ -67,7 +62,8 @@ export default function ShoppingListPage() {
             </button>
             <ul id="shopping-list">
             <ShoppingList 
-                listId={listId}
+                listId={list.listId}
+                listName={list.listName}
             />
             </ul>
             

@@ -1,44 +1,29 @@
 import InputButton from "../../components/Input/InputButton"
 import { useCurrentView } from "./ViewProvider"
 import { useAuth } from "../Auth/AuthProvider"
-import { useUserLists, useShoppingList } from "../storage/useFirebaseData"
+import { useUserLists } from "../storage/useFirebaseData"
 import { useCurrentList } from "./CurrentListProvider"
-import { ShoppingListItem } from "../../types/ShoppingListTypes"
-import React, { useCallback, useState} from "react";
+import { useCallback} from "react";
 
 export default function ListOfLists() {
-    console.log("Rendering List of Lists")
 
     const { user } = useAuth();
-    const { currentView, setCurrentView } = useCurrentView();
-    const { currentList, setCurrentList } = useCurrentList();
+    const { setCurrentView } = useCurrentView();
+    const { setCurrentList } = useCurrentList();
     
     if (user !== null) {
       const userId: string = user.uid
+      
+      // get 'shared_lists' for current user
       const getListData = useUserLists(userId).data;
       
-      const loadSelectedList = useCallback((id: string) => {
-        setCurrentList(id)
+      const loadSelectedList = useCallback((list: any) => {
+        setCurrentList({listId: list.id, listName: list.list_name})
         setCurrentView("shop-page");
-        
-        console.log(`current list: ${"stuff"})}
-                      user: ${user?.first_name}
-                      current view: ${currentView}
-                    `)
-                    
-        if (getListData !== null) {
-          console.log(`current list: ${"stuff"})}
-                      user: ${user?.first_name}
-                      current view: ${currentView}
-                    `)
-          
-        // if (shoppingListInFirebase !== null) {
-        //   setShoppingListInDb(shoppingListInFirebase);
-        }
       }, [setCurrentList, setCurrentView])
         
       let listElements: JSX.Element[] = [<p key="default">Create a new list to get started</p>];
-    
+      
       if (user !== null && getListData !== null) {
         listElements = getListData.map((list: any) => 
           {
@@ -47,7 +32,7 @@ export default function ListOfLists() {
             return (
                     <InputButton
                       key={id}
-                      onClick={() =>loadSelectedList(id)}
+                      onClick={() =>loadSelectedList(list)}
                       text={list.list_name}
                     />
             )

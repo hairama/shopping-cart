@@ -71,6 +71,12 @@ ul li:hover {
   cursor: pointer;
 }
 
+#shopping-list {
+  /* display: flex; */
+  justify-content: center;
+  margin-bottom: 10vh;
+}
+
 .cart-button {
   display: flex;
   padding: .75rem 1rem;
@@ -79,11 +85,12 @@ ul li:hover {
   box-shadow: 0px 3px 4px #00000066;
   position: fixed;
   bottom: 6vh;
+  justify-self: center;
+  margin: 0 auto;
   min-width: 15rem;
-  align-self: center;
   border: 0.5px solid rgba(58, 56, 56, 0.165);
-  align-items: center;
-  justify-content: left;
+  /* align-items: center; */
+  /* justify-content: center; */
 }
 
 .cart-button-text {
@@ -98,6 +105,10 @@ ul li:hover {
   background-color: #A5ABB9;
 }
 
+.navHeaderFlexContainer {
+  display: flex;
+}
+
 .icon-button {
   fill:#AC485A;
   background-color: transparent;
@@ -107,15 +118,20 @@ ul li:hover {
 }
 
 .icon-button-top-right {
+  margin-left: auto;
+  padding: 0;
+  width: 1.75rem;
+  height: 2.5rem;
+  background-color: transparent;
+  cursor: pointer;
+  /* justify-self: center; */
+}
+
+.icon-image-top-right {
   margin: 0;
   padding: 0;
   width: 1.75rem;
   height: 1.75rem;
-  right: 1.5rem;
-  background-color: transparent;
-  align-self: end;
-  justify-self: start;
-
 }
 
 .back-button {

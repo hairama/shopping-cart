@@ -7,10 +7,10 @@ export interface InputButtonProps {
   disabled?: boolean;
 }
 
-const InputButton: React.FC<InputButtonProps> = ({ key, onClick, text, disabled = false }) => {
+const InputButton: React.FC<InputButtonProps> = ({ onClick, text, disabled = false }) => {
   return (
     <button 
-      key={key}
+      
       onClick={onClick} 
       disabled={disabled}>
       {text}

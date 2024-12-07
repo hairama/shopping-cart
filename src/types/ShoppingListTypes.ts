@@ -8,6 +8,7 @@ export interface ShoppingListProps {
   // setShoppingListInDb: React.Dispatch<React.SetStateAction<ShoppingListItem[]>>  
   // shoppingListInDb: ShoppingListItem[]
   listId: string
+  listName: string
   }
 
   export interface ShoppingContextValues {
