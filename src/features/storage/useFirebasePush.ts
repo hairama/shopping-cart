@@ -9,7 +9,7 @@ export function useFirebasePush(path: string, data: any) {
     const dataRef = ref(database, path)
 
     try {
-      await push(dataRef, data);
+      //await push(dataRef, data);
       const newRef = await push(dataRef, data)
       return newRef.key
       
