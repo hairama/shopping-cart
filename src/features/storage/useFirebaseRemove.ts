@@ -3,6 +3,7 @@ import { ref, remove } from 'firebase/database';
 import { database } from './firebase';
 
 export function useFirebaseRemove(path: string) {
+  console.log("running firebase remove!")
   const removeData = async () => {
     const dataRef = ref(database, path);
     
