@@ -39,10 +39,13 @@ export default function HomePage() {
     
     return (
         <>
-            <IconButton 
-                view="login-page"
-                iconUrl='../assets/circle-user-solid.svg'
-            />
+            <div className="navHeaderFlexContainer">
+                {user && <span>{user.first_name}</span>}
+                <IconButton 
+                    view="login-page"
+                    iconUrl='../assets/circle-user-solid.svg'
+                />
+            </div>
             <CatPic />
             <p>Add new list</p>
             <InputField 

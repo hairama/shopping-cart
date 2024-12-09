@@ -12,7 +12,9 @@ export default function ListManagementPage() {
     const { setCurrentView } = useCurrentView();
     const [isConfirmed, setIsConfirmed] = useState(false);
     const { currentList, setCurrentList } = useCurrentList();
+    const [ tempListName, setTempListName ] = useState('')
     const { user } = useAuth();
+    const [ emailToShare, setEmailToShare ] = useState('')
 
     const listId = currentList.listId;
     const userId = user?.uid;
@@ -22,6 +24,12 @@ export default function ListManagementPage() {
     const removeListFromLists = useFirebaseRemove(deleteListPath);
     const removeListFromUser = useFirebaseRemove(deleteUserList);
 
+    function shareList(emailToShare: string) {
+        console.log(`Totally gonna share this with ${emailToShare}`)
+        setEmailToShare('')
+    } 
+    
+    
     function askToConfirm() {
         setIsConfirmed((oldValue) => !oldValue);
     }
@@ -41,7 +49,15 @@ export default function ListManagementPage() {
         } 
     }
 
-    
+    function changeListName() {
+        setCurrentList(prevList => 
+            {
+                return {
+                    ...prevList,
+                    listName: tempListName
+                }
+            })
+    }
 
     const message = `Are you sure you want to delete this list?
                      This action cannot be undone.`;
@@ -59,16 +75,18 @@ export default function ListManagementPage() {
             )}
             <BackArrowButton view={"shop-page"} />
             <CatPic />
+            <button>{currentList.listName}</button>
             <InputButton text="Delete List" onClick={askToConfirm} />
             <p>Change list name</p>
             <input
                 type="text"
                 id="input-field"
-                placeholder="Trader Joes"
-                value={""}
-                onChange={() => console.log("List name changed")}
+                placeholder={currentList.listName}
+                value={tempListName}
+                onChange={(e)=> setTempListName(e.target.value)}
             />
-            <button id="add-button" onClick={() => console.log("adding List")}>
+            <button id="add-button" 
+                onClick={changeListName}>
                 Save list name
             </button>
             <p>Share list</p>
@@ -76,16 +94,15 @@ export default function ListManagementPage() {
                 type="text"
                 id="input-field"
                 placeholder="Enter email"
-                value={""}
-                onChange={() => console.log("List name changed")}
+                value={emailToShare}
+                onChange={(e)=> setEmailToShare(e.target.value)}
             />
-            <button id="add-button" onClick={() => console.log("adding List")}>
+            <button id="add-button" 
+                onClick={() => shareList(emailToShare)}
+                >
                 Share
             </button>
             <ul>
-                <li>tony@baloney.com</li>
-                <li>priya.schwartz@aol.com</li>
-                <li>bezos@amazon.com</li>
             </ul>
         </>
     );
