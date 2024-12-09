@@ -3,7 +3,7 @@ import BackArrowButton from "../../components/BackArrowButton";
 import MessageModal from "../../components/MessageModal";
 import InputButton from "../../components/Input/InputButton";
 import { useState } from "react";
-import { useFirebaseRemove, useFirebaseUpdate } from "../storage";
+import { useFirebaseRemove } from "../storage";
 import { useCurrentView } from "../HomePage/ViewProvider";
 import { useCurrentList } from "../HomePage/CurrentListProvider";
 import { useAuth } from "./ShoppingContextProvider";
@@ -14,6 +14,7 @@ export default function ListManagementPage() {
     const { currentList, setCurrentList } = useCurrentList();
     const [ tempListName, setTempListName ] = useState('')
     const { user } = useAuth();
+    const [ emailToShare, setEmailToShare ] = useState('')
 
     const listId = currentList.listId;
     const userId = user?.uid;
@@ -23,6 +24,12 @@ export default function ListManagementPage() {
     const removeListFromLists = useFirebaseRemove(deleteListPath);
     const removeListFromUser = useFirebaseRemove(deleteUserList);
 
+    function shareList(emailToShare: string) {
+        console.log(`Totally gonna share this with ${emailToShare}`)
+        setEmailToShare('')
+    } 
+    
+    
     function askToConfirm() {
         setIsConfirmed((oldValue) => !oldValue);
     }
@@ -87,16 +94,15 @@ export default function ListManagementPage() {
                 type="text"
                 id="input-field"
                 placeholder="Enter email"
-                value={""}
-                onChange={() => console.log("List name changed")}
+                value={emailToShare}
+                onChange={(e)=> setEmailToShare(e.target.value)}
             />
-            <button id="add-button" onClick={() => console.log("adding List")}>
+            <button id="add-button" 
+                onClick={() => shareList(emailToShare)}
+                >
                 Share
             </button>
             <ul>
-                <li>tony@baloney.com</li>
-                <li>priya.schwartz@aol.com</li>
-                <li>bezos@amazon.com</li>
             </ul>
         </>
     );
