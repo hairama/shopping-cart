@@ -44,6 +44,7 @@ export default function ShoppingListPage() {
               />
             </div>
             <CatPic />
+            <button>{list.listName}</button>
             <input 
                 type="text" 
                 id="input-field" 

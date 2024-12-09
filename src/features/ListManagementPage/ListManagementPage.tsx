@@ -3,7 +3,7 @@ import BackArrowButton from "../../components/BackArrowButton";
 import MessageModal from "../../components/MessageModal";
 import InputButton from "../../components/Input/InputButton";
 import { useState } from "react";
-import { useFirebaseRemove } from "../storage";
+import { useFirebaseRemove, useFirebaseUpdate } from "../storage";
 import { useCurrentView } from "../HomePage/ViewProvider";
 import { useCurrentList } from "../HomePage/CurrentListProvider";
 import { useAuth } from "./ShoppingContextProvider";
@@ -12,6 +12,7 @@ export default function ListManagementPage() {
     const { setCurrentView } = useCurrentView();
     const [isConfirmed, setIsConfirmed] = useState(false);
     const { currentList, setCurrentList } = useCurrentList();
+    const [ tempListName, setTempListName ] = useState('')
     const { user } = useAuth();
 
     const listId = currentList.listId;
@@ -41,7 +42,15 @@ export default function ListManagementPage() {
         } 
     }
 
-    
+    function changeListName() {
+        setCurrentList(prevList => 
+            {
+                return {
+                    ...prevList,
+                    listName: tempListName
+                }
+            })
+    }
 
     const message = `Are you sure you want to delete this list?
                      This action cannot be undone.`;
@@ -59,16 +68,18 @@ export default function ListManagementPage() {
             )}
             <BackArrowButton view={"shop-page"} />
             <CatPic />
+            <button>{currentList.listName}</button>
             <InputButton text="Delete List" onClick={askToConfirm} />
             <p>Change list name</p>
             <input
                 type="text"
                 id="input-field"
-                placeholder="Trader Joes"
-                value={""}
-                onChange={() => console.log("List name changed")}
+                placeholder={currentList.listName}
+                value={tempListName}
+                onChange={(e)=> setTempListName(e.target.value)}
             />
-            <button id="add-button" onClick={() => console.log("adding List")}>
+            <button id="add-button" 
+                onClick={changeListName}>
                 Save list name
             </button>
             <p>Share list</p>

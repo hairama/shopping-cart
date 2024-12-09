@@ -20,6 +20,7 @@ export default function ShoppingCartPage() {
               />
             </div>
             <CatPic />
+            <button>{list.listName}</button>
             <ul className="cart-list shopping-list">
             <ShoppingList 
                 listId={list.listId}
