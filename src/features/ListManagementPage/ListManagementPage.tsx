@@ -3,10 +3,11 @@ import BackArrowButton from "../../components/BackArrowButton";
 import MessageModal from "../../components/MessageModal";
 import InputButton from "../../components/Input/InputButton";
 import { useState } from "react";
-import { useFirebaseRemove } from "../storage";
+import { useFirebaseRemove, useFirebaseUpdate } from "../storage";
 import { useCurrentView } from "../HomePage/ViewProvider";
 import { useCurrentList } from "../HomePage/CurrentListProvider";
 import { useAuth } from "./ShoppingContextProvider";
+import { checkForAccount } from "../Auth/CheckForAccount";
 
 export default function ListManagementPage() {
     const { setCurrentView } = useCurrentView();
@@ -24,11 +25,52 @@ export default function ListManagementPage() {
     const removeListFromLists = useFirebaseRemove(deleteListPath);
     const removeListFromUser = useFirebaseRemove(deleteUserList);
 
-    function shareList(emailToShare: string) {
-        console.log(`Totally gonna share this with ${emailToShare}`)
-        setEmailToShare('')
-    } 
+    const renameListForUser = useFirebaseUpdate(`/users/${userId}/shared_lists/`, {[listId]: tempListName})
+    const renameListForLists = useFirebaseUpdate(`/lists/${listId}`, {list_name: tempListName})
+
     
+
+    async function shareList(emailToShare: string) {
+        console.log(`Checking if account exists for email: ${emailToShare}`);
+        if (!emailToShare) {
+          console.log("Please enter an email address.");
+          return;
+        }
+      
+        try {
+          const result = await checkForAccount(emailToShare);
+          if (result.exists) {
+            const sharedUserId = result.uid
+            const sharedUserName = result.name
+            const currentListName = currentList.listName
+            const currentListID = currentList.listId
+            const shareListWithUser = useFirebaseUpdate(`users/${sharedUserId}/shared_lists/`, {[currentListID]: currentListName})
+            if (sharedUserId) {
+                const addSharedUserToList = useFirebaseUpdate(`lists/${listId}/shared_with`, 
+                    {[sharedUserId]: 
+                        {
+                            email: emailToShare,
+                            first_name: sharedUserName
+                        }
+                    }
+                )
+                addSharedUserToList()
+            }
+            
+            shareListWithUser()
+            
+            console.log(`Sharing list with: ${result.name} (UID: ${result.uid})`);
+            // Add logic to share the list with the UID
+          } else {
+            console.log("No account found for email:", emailToShare);
+          }
+        } catch (error) {
+          console.error("Error sharing list:", error);
+        } finally {
+          setEmailToShare('');
+        }
+      }
+      
     
     function askToConfirm() {
         setIsConfirmed((oldValue) => !oldValue);
@@ -50,6 +92,8 @@ export default function ListManagementPage() {
     }
 
     function changeListName() {
+            renameListForUser()
+            renameListForLists()
         setCurrentList(prevList => 
             {
                 return {
@@ -74,8 +118,10 @@ export default function ListManagementPage() {
                 />
             )}
             <BackArrowButton view={"shop-page"} />
-            <CatPic />
-            <button>{currentList.listName}</button>
+            <div className="list-name-and-cat-container">
+              <CatPic />
+              <button className="store-name-button">{currentList.listName}</button>
+            </div>
             <InputButton text="Delete List" onClick={askToConfirm} />
             <p>Change list name</p>
             <input

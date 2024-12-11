@@ -15,8 +15,8 @@ html, body {
 }
 
 img {
-  width: 150px;
-  margin: 30px auto;
+  width: 125px;
+  margin: 0 auto 0px auto;
   padding: 0;
 }
 
@@ -104,17 +104,15 @@ ul li:hover {
   padding: 0.25rem;
 }
 
-.cart-button-count {
-  margin-left: auto;
-}
+/* .cart-button-count {
+  /* margin-left: auto; */
+
 
 .cart-button:hover {
   background-color: #A5ABB9;
 }
 
-.navHeaderFlexContainer {
-  display: flex;
-}
+
 
 .icon-button {
   fill:#AC485A;
@@ -126,7 +124,7 @@ ul li:hover {
 }
 
 .icon-button-top-right {
-  margin-left: auto;
+  /* margin-left: auto; */
   padding: 0;
   width: 1.75rem;
   height: 2.5rem;
@@ -201,3 +199,31 @@ ul li:hover {
   margin-top: auto;
 }
 
+.navHeaderFlexContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.list-name-and-cat-container {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  /* border: 10px solid green; */
+  /* padding: 20px; */
+  /* background-color: black; */
+}
+
+.store-name-button {
+  /* height: 38px; */
+  background-color: rgb(49, 92, 50);
+  color: #DCE1EB;
+  /* font-size: 1.5rem; */
+  /* align-self: center;
+  justify-self: center; */
+  /* margin: 0px auto; */
+  /* padding: 0.25rem 0.5rem; */
+}
+
+p {
+  margin-bottom: .33rem;
+}

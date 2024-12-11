@@ -6,7 +6,7 @@ import ClearCartButton from "./ClearCartButton";
 import { useCurrentView } from "../features/HomePage/ViewProvider";
 //import { batchUpdateStatus } from "../features/storage/useFirebaseUpdate";
 
-export default function ShoppingList({listId, listName}: ShoppingListProps) {
+export default function ShoppingList({listId}: ShoppingListProps) {
     
     const { currentView } = useCurrentView()
     const [shoppingListInDb, setShoppingListInDb] = useState<ShoppingListItem[]>([]);
@@ -59,7 +59,6 @@ export default function ShoppingList({listId, listName}: ShoppingListProps) {
                 {shoppingListItems}
                 {currentView === "shop-page" &&
                     <CartButton 
-                        listName={listName} 
                         cartItemCount={cartItemCount}
                         view='cart-page'
                     />

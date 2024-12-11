@@ -2,10 +2,9 @@ import { useCurrentView } from "../features/HomePage/ViewProvider"
 interface CartButtonProps {
     view: string
     cartItemCount: number
-    listName: string
 }
 
-export default function CartButton({listName, cartItemCount, view}: CartButtonProps) {
+export default function CartButton({cartItemCount, view}: CartButtonProps) {
     const { setCurrentView } = useCurrentView()
 
     return (
@@ -14,8 +13,8 @@ export default function CartButton({listName, cartItemCount, view}: CartButtonPr
             className='cart-button'
             onClick={()=>setCurrentView(view)}
             >
-            <div className="cart-btn-text">{listName}</div>
-            <span className="cart-button-count">{cartItemCount}</span>
+            <div className="cart-btn-text">{`
+                ${cartItemCount} ${cartItemCount > 1 ? ' items in cart' : ' item in cart'}`}</div> 
             <img className='icon-button' src={('/assets/cart-shopping-solid.svg')} alt="icon" />
         </button>
         
