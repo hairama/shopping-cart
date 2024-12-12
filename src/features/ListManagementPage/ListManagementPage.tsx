@@ -10,6 +10,7 @@ import { useAuth } from "./ShoppingContextProvider";
 import { checkForAccount } from "../Auth/CheckForAccount";
 import { useListUsers } from "../storage/useFirebaseData";
 //import { updateCurrentUser } from "firebase/auth";
+//import { FirebaseListUser } from "../storage/useFirebaseData";
 
 export default function ListManagementPage() {
     const { setCurrentView } = useCurrentView();
@@ -18,7 +19,7 @@ export default function ListManagementPage() {
     const [ tempListName, setTempListName ] = useState('')
     const { user } = useAuth();
     const [ emailToShare, setEmailToShare ] = useState('')
-    const [ sharedUsersList, setSharedUsersList ] = useState([])
+    //const [ sharedUsersList, setSharedUsersList ] = useState()
 
     const listId = currentList.listId;
     const userId = user?.uid;
@@ -33,8 +34,6 @@ export default function ListManagementPage() {
     const renameListForLists = useFirebaseUpdate(`/lists/${listId}`, {list_name: tempListName})
     
     const sharedUserList = useListUsers(listId).data
-
-    
 
     async function shareList(emailToShare: string) {
         console.log(`Checking if account exists for email: ${emailToShare}`);
@@ -114,6 +113,10 @@ export default function ListManagementPage() {
         const deleteSharedUserList = `users/${uid}/shared_lists/${listId}`;
         const removeListFromUser = useFirebaseRemove(deleteSharedUserList);
         removeListFromUser()
+        const deleteUserFromSharedList = `lists/${listId}/shared_with/${uid}`
+        const removeListFromList = useFirebaseRemove(deleteUserFromSharedList)
+        renderSharedUsers()
+        removeListFromList()
     }
     
     let sharedUserElements: any = ''
