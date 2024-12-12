@@ -19,8 +19,10 @@ export default function ShoppingCartPage() {
                 view={"shop-page"}
               />
             </div>
-            <CatPic />
-            <button>{list.listName}</button>
+            <div className="list-name-and-cat-container">
+              <CatPic />
+              <button className="store-name-button">{list.listName}</button>
+            </div>
             <ul className="cart-list shopping-list">
             <ShoppingList 
                 listId={list.listId}

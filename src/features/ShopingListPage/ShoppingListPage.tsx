@@ -38,13 +38,16 @@ export default function ShoppingListPage() {
               <BackArrowButton 
                 view={"home-page"}
               />
+              
               <IconButton 
               view={"list-mgmt-page"}
               iconUrl='../assets/gear-solid.svg'
               />
             </div>
-            <CatPic />
-            <button>{list.listName}</button>
+            <div className="list-name-and-cat-container">
+              <CatPic />
+              <button className="store-name-button">{list.listName}</button>
+            </div>
             <input 
                 type="text" 
                 id="input-field" 
