@@ -36,7 +36,6 @@ export default function ClearCartButton({shoppingListInDb, listId, cartItemCount
                 className='cart-button'
                 onClick={askToConfirm}>
                     <div className="cart-btn-text">Clear Cart</div>
-                    <span className="cart-button-count">{cartItemCount}</span>
                     <img className='icon-button' src={('/assets/cart-shopping-solid.svg')} alt="icon" />
             </button> 
             { isConfirmed == true &&

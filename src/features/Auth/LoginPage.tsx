@@ -112,7 +112,9 @@ const LoginPage: React.FC = () => {
             <div>
               <label>Email</label>
               <input
+                name="username"
                 type="email"
+                autoComplete='email'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -121,7 +123,9 @@ const LoginPage: React.FC = () => {
             <div>
               <label>Password</label>
               <input
+                name="password"
                 type="password"
+                autoComplete='current-password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required

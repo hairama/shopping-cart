@@ -9,6 +9,7 @@ import { useCurrentList } from "../HomePage/CurrentListProvider";
 import { useAuth } from "./ShoppingContextProvider";
 import { checkForAccount } from "../Auth/CheckForAccount";
 import { useListUsers } from "../storage/useFirebaseData";
+import { useCleanupSharedList } from "../storage/useFirebaseUpdate";
 //import { updateCurrentUser } from "firebase/auth";
 //import { FirebaseListUser } from "../storage/useFirebaseData";
 
@@ -81,9 +82,30 @@ export default function ListManagementPage() {
         setIsConfirmed((oldValue) => !oldValue);
     }
 
-    async function confirmDeleteList() {
-        console.log("confirmDeleteList called");
+
+// function deleteList({ listID }: { listID: string }) {
+  const cleanupSharedList = useCleanupSharedList();
+
+  async function handleDelete() {
+    try {
+      await cleanupSharedList(listId); // Removes the listID from all users
+      console.log(`List ${listId} successfully cleaned up.`);
+    } catch (error) {
+      console.error("Error during list deletion:", error);
+    }
+  }
+
+//   return (
+//     <button onClick={handleDelete}>
+//       Delete List
+//     </button>
+//   );
+
+
     
+    async function confirmDeleteList() {
+        console.log("confirmDeleteList called"); 
+        handleDelete()
         try {
             await removeListFromLists();
             console.log("removeListFromLists called");
@@ -94,6 +116,7 @@ export default function ListManagementPage() {
         } catch (error) {
             console.error("Error deleting list: ", error);
         } 
+        
     }
 
     function changeListName() {

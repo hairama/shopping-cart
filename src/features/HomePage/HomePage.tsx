@@ -47,7 +47,6 @@ export default function HomePage() {
                 />
             </div>
             <CatPic />
-            <p>Add new list</p>
             <InputField 
                 placeholder="Enter store or list name"
                 value={newListName}
