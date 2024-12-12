@@ -8,6 +8,8 @@ import { useCurrentView } from "../HomePage/ViewProvider";
 import { useCurrentList } from "../HomePage/CurrentListProvider";
 import { useAuth } from "./ShoppingContextProvider";
 import { checkForAccount } from "../Auth/CheckForAccount";
+import { useListUsers } from "../storage/useFirebaseData";
+//import { updateCurrentUser } from "firebase/auth";
 
 export default function ListManagementPage() {
     const { setCurrentView } = useCurrentView();
@@ -16,9 +18,11 @@ export default function ListManagementPage() {
     const [ tempListName, setTempListName ] = useState('')
     const { user } = useAuth();
     const [ emailToShare, setEmailToShare ] = useState('')
+    const [ sharedUsersList, setSharedUsersList ] = useState([])
 
     const listId = currentList.listId;
     const userId = user?.uid;
+    const userEmail = user?.email
     const deleteListPath = `lists/${listId}`;
     const deleteUserList = `users/${userId}/shared_lists/${listId}`;
 
@@ -27,6 +31,8 @@ export default function ListManagementPage() {
 
     const renameListForUser = useFirebaseUpdate(`/users/${userId}/shared_lists/`, {[listId]: tempListName})
     const renameListForLists = useFirebaseUpdate(`/lists/${listId}`, {list_name: tempListName})
+    
+    const sharedUserList = useListUsers(listId).data
 
     
 
@@ -102,6 +108,44 @@ export default function ListManagementPage() {
                 }
             })
     }
+   
+    function removeFromSharing(uid: string) {
+        console.log(`removing ${uid} from sharing`)
+        const deleteSharedUserList = `users/${uid}/shared_lists/${listId}`;
+        const removeListFromUser = useFirebaseRemove(deleteSharedUserList);
+        removeListFromUser()
+    }
+    
+    let sharedUserElements: any = ''
+    
+    function renderSharedUsers() {
+        if(sharedUserList)
+        try {
+            sharedUserList
+
+            sharedUserElements = sharedUserList?.map((user) => {
+                if ( user.email !== userEmail ) {
+                    return (
+                        <li className="shared-list-user flex">
+                            <p>{user.email}</p>
+                            <img 
+                                className="icon-button"
+                                src="./public/assets/trash-can-solid.svg" 
+                                onClick={()=>removeFromSharing(user.id)}
+                            />
+                        </li>)
+                }
+                
+            })
+        } catch (error) {
+            console.error("Error deleting list: ", error);
+        } 
+        
+    }
+      
+    renderSharedUsers()
+    
+    
 
     const message = `Are you sure you want to delete this list?
                      This action cannot be undone.`;
@@ -149,6 +193,7 @@ export default function ListManagementPage() {
                 Share
             </button>
             <ul>
+              {sharedUserElements}
             </ul>
         </>
     );

@@ -112,6 +112,11 @@ ul li:hover {
   background-color: #A5ABB9;
 }
 
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
 
 .icon-button {
@@ -226,4 +231,15 @@ ul li:hover {
 
 p {
   margin-bottom: .33rem;
+}
+
+.shared-list-user {
+  font-size: 1rem;
+  text-align: left;
+  margin: 0;
+  padding: 1rem 1.5rem;
+}
+
+.shared-list-user p {
+  margin: 0px;
 }
