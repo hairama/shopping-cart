@@ -91,7 +91,7 @@ export function useListUsers(list: string) {
     const userArray: FirebaseListUser[] = Object.entries(snapshotData || {}).map(([id, { email, userName }]) => ({
       id,
       email,
-      userName, 
+      userName: userName
     }));
     return userArray;
   }, []);

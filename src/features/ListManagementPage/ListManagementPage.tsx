@@ -9,7 +9,7 @@ import { useCurrentList } from "../HomePage/CurrentListProvider";
 import { useAuth } from "./ShoppingContextProvider";
 import { checkForAccount } from "../Auth/CheckForAccount";
 import { useListUsers } from "../storage/useFirebaseData";
-import { useCleanupSharedList } from "../storage/useFirebaseUpdate";
+import { useCleanupSharedList } from "../storage/useFirebaseUpdate"
 //import { updateCurrentUser } from "firebase/auth";
 //import { FirebaseListUser } from "../storage/useFirebaseData";
 

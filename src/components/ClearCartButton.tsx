@@ -27,7 +27,7 @@ export default function ClearCartButton({shoppingListInDb, listId, cartItemCount
         
     }
 
-    const message = `${cartItemCount} ${cartItemCount > 1 ? "items were" : "item was" } checked out.`
+    const message = `You bought ${cartItemCount} ${cartItemCount > 1 ? "items" : "item" }.`
 
     return (
         <>
@@ -41,9 +41,9 @@ export default function ClearCartButton({shoppingListInDb, listId, cartItemCount
             { isConfirmed == true &&
             <MessageModal 
                 message={message}
-                buttonOneText="Go home"
+                buttonOneText="Finish shopping"
                 buttonOneOnClick={(clearCart)}
-                buttonTwoText="Cancel"
+                buttonTwoText="Back"
                 buttonTwoOnClick={askToConfirm}
             /> 
             }
