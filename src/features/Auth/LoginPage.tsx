@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { auth } from '../storage/firebase'; 
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { useAuth } from './AuthProvider';
@@ -6,6 +6,7 @@ import { Timestamp } from 'firebase/firestore';
 import { useFirebaseUpdate, useUserData } from '../storage/index'
 import { UserData } from "../Auth/AuthProvider"
 import BackArrowButton from '../../components/BackArrowButton';
+import { getEmailFromStorage, saveEmailToStorage } from '../storage/localStorage';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -15,6 +16,13 @@ const LoginPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { user, setUser } = useAuth()
   const [uidForFetch] = useState<string | null>(null)
+
+  useEffect(() => {
+    const savedEmail = getEmailFromStorage()
+    if (savedEmail) {
+      setEmail(savedEmail)
+    }
+  })
 
   //@ts-ignore
   let fbUserData = uidForFetch ? useUserData(uidForFetch) : null;
@@ -44,6 +52,7 @@ const LoginPage: React.FC = () => {
             // Call the update hook with the new status
             const updateUserData = useFirebaseUpdate(`users/${userData.uid}`, toFirebaseUserData(userData));
             updateUserData(); 
+            saveEmailToStorage(email)
 
     } catch (error) {
       setError(error instanceof Error ? error.message : 'An unknown error occurred');
@@ -74,6 +83,7 @@ const LoginPage: React.FC = () => {
           created_at: fbUserData.created_at,
           shared_lists: fbUserData.shared_lists,
         });
+        saveEmailToStorage(email)
       } else {
         console.error("User data not found in the database.");
         setError("User data not found.");
