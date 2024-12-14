@@ -220,7 +220,7 @@ ul li:hover {
 
 .store-name-button {
   /* height: 38px; */
-  background-color: rgb(49, 92, 50);
+  background-color: #8e515c;
   color: #DCE1EB;
   /* font-size: 1.5rem; */
   /* align-self: center;
@@ -275,8 +275,7 @@ p {
 }
 
 .login-page {
-  width: 320px;
-  margin: 2rem auto;
+  margin: 2.5rem auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -284,13 +283,29 @@ p {
   /* border: 1px solid black; */
 }
 
+.login-form {
+  margin: 0;
+}
+
 .inputs-and-buttons {
-  text-align: right;
-  align-items: end;
+  text-align: left;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .inputs-and-buttons input, .inputs-and-buttons button, .inputs-and-buttons label {
-  font-size: 1rem;
+  font-size: 1.2rem;
+  width: 85vw;
+  max-width: 350px;
+  margin: 0.33rem 0;
+}
+
+.log-in-button {
+  align-self: center;
+  justify-self: center;
+  margin: 0px;
+  
 }
 
         /* TOGGLE STYLING */ 
@@ -299,9 +314,10 @@ p {
   display: flex;
   align-items: center;
   justify-self: center;
-  justify-content: end;
+  justify-content: start;
   gap: 0.5rem;
   font-size: 1.25rem;
+  margin: 1rem 0;
 }
 
 

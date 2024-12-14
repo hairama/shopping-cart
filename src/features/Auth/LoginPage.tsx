@@ -24,9 +24,9 @@ export default function LoginPage() {
   useEffect(() => {
     const savedEmail = getEmailFromStorage()
     if (savedEmail) {
-      setEmail(savedEmail)
+      
     }
-  })
+  },[])
 
   function toggleLogIn() {
     // setLogInOrSignUp((preValue) => preValue === 'log-in' ? 'sign-up' : 'log-in')
@@ -134,7 +134,7 @@ export default function LoginPage() {
           </div>
         ) : (
           
-          <div>
+          <div className='login-form'>
             <div className="toggle-switch-and-text">
               <div>Log in</div>
                 <div className="switch"
@@ -153,7 +153,7 @@ export default function LoginPage() {
                 className='inputs-and-buttons'
                 onSubmit={ isChecked ? handleSignUp : handleLogin}>
               <div >
-                <label htmlFor='username'>Email</label>
+                <p>Email</p>
                   <input
                     name="username"
                     type="email"
@@ -167,7 +167,7 @@ export default function LoginPage() {
                 
               </div>
               <div>
-                <label>Password</label>
+                <p>Password</p>
                 <input
                   name="password"
                   type="password"
@@ -189,7 +189,9 @@ export default function LoginPage() {
               </div>
               }
               
-              <button type="submit" disabled={isLoading}>{isChecked? "Sign Up" : "Log In"}</button>
+              <button className="log-in-button"
+                  type="submit" 
+                  disabled={isLoading}>{isChecked? "Sign Up" : "Log In"}</button>
             </form>
           </div>
         )}
