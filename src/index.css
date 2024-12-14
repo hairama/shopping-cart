@@ -243,3 +243,130 @@ p {
 .shared-list-user p {
   margin: 0px;
 }
+
+.landing-page {
+  text-align: center;
+  margin: 2vh auto;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}
+
+.landing-page h1 {
+  font-size: 8vw;
+  font-weight: 600;
+  font-family: 'Rubik', sans-serif;
+  margin-bottom: 0.5vw;
+  padding-bottom: 0;
+  text-align: center;
+}
+
+.landing-page h2 {
+  font-size: 4vw;
+  font-weight: 400;
+  margin: 0 50px;
+}
+
+.landing-page button {
+  width: 80vw;
+  margin: 0 auto;
+  max-width: 300px;
+}
+
+.login-page {
+  width: 320px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid black; */
+}
+
+.inputs-and-buttons {
+  text-align: right;
+  align-items: end;
+}
+
+.inputs-and-buttons input, .inputs-and-buttons button, .inputs-and-buttons label {
+  font-size: 1rem;
+}
+
+        /* TOGGLE STYLING */ 
+/* The switch - the box around the slider */
+.toggle-switch-and-text {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  justify-content: end;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+}
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #AC485A;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #AC485A;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(21px);
+  -ms-transform: translateX(21px);
+  transform: translateX(21px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+} 
+
+label {
+  display: inline-block;
+}

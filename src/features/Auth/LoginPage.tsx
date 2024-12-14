@@ -7,8 +7,10 @@ import { useFirebaseUpdate, useUserData } from '../storage/index'
 import { UserData } from "../Auth/AuthProvider"
 import BackArrowButton from '../../components/BackArrowButton';
 import { getEmailFromStorage, saveEmailToStorage } from '../storage/localStorage';
+import CatPic from '../../components/CatPic';
+// import InputButton from '../../components/Input/InputButton'
 
-const LoginPage: React.FC = () => {
+export default function LoginPage() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [firstName, setFirstName] = useState<string>('')
@@ -16,6 +18,8 @@ const LoginPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { user, setUser } = useAuth()
   const [uidForFetch] = useState<string | null>(null)
+  // const [logInOrSignUp, setLogInOrSignUp] = useState('log-in')
+  const [ isChecked, setIsChecked] = useState(false)
 
   useEffect(() => {
     const savedEmail = getEmailFromStorage()
@@ -23,6 +27,11 @@ const LoginPage: React.FC = () => {
       setEmail(savedEmail)
     }
   })
+
+  function toggleLogIn() {
+    // setLogInOrSignUp((preValue) => preValue === 'log-in' ? 'sign-up' : 'log-in')
+    setIsChecked((prevCheck) => !prevCheck)
+  }
 
   //@ts-ignore
   let fbUserData = uidForFetch ? useUserData(uidForFetch) : null;
@@ -104,62 +113,87 @@ const LoginPage: React.FC = () => {
       setError(error instanceof Error ? error.message : 'An unknown error occurred');
     }
   };
-  
+
+  //let backButtonView = user ? "home-page" : "landing-page"
+  //<label className="grey-text">Dark mode </label>
   return (
-    <div>
-      <BackArrowButton 
-        view={"home-page"}
-      />
-      <h1>Login</h1>
-      {user? (
-        <div>
-          <h2>Hi, {user.first_name}</h2>
-          <button onClick={handleLogout}>Log Out</button>
-        </div>
-      ) : (
-        <div>
-          <form onSubmit={handleLogin}>
-            <div>
-              <label>Email</label>
-              <input
-                name="username"
-                type="email"
-                autoComplete='email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label>Password</label>
-              <input
-                name="password"
-                type="password"
-                autoComplete='current-password'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label>First name</label>
-              <input
-                type="text"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-              />
-            </div>
-            <button type="submit" disabled={isLoading}>Log In</button>
-          </form>
-          <p>or</p>
-          <form onSubmit={handleSignUp}>
-            <button type="submit" disabled={isLoading}>Sign Up</button>
-          </form>
-        </div>
-      )}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-    </div>
+      <div className='login-page'>
+        
+        <CatPic />
+        
+        
+
+        
+        {user? (
+          <div>
+            <BackArrowButton 
+              view={"home-page"}
+            />
+            <h2>Hi, {user.first_name}</h2>
+            <button onClick={handleLogout}>Log Out</button>
+          </div>
+        ) : (
+          
+          <div>
+            <div className="toggle-switch-and-text">
+              <div>Log in</div>
+                <div className="switch"
+                  onClick={toggleLogIn}>
+                  <input 
+                    type="checkbox" 
+                    id="dark-mode" 
+                    data-dark_mode="dark_mode"
+                    checked={isChecked}
+                  />
+                  <span className="slider round"></span>
+                </div>
+                <div>Sign up</div>
+              </div>
+            <form 
+                className='inputs-and-buttons'
+                onSubmit={ isChecked ? handleSignUp : handleLogin}>
+              <div >
+                <label htmlFor='username'>Email</label>
+                  <input
+                    name="username"
+                    type="email"
+                    id="username"
+                    autoComplete='email'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+            
+                
+              </div>
+              <div>
+                <label>Password</label>
+                <input
+                  name="password"
+                  type="password"
+                  autoComplete='current-password'
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+              {isChecked && 
+                <div>
+                <label>First name</label>
+                <input
+                  type="text"
+                  value={firstName}
+                  required
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+              </div>
+              }
+              
+              <button type="submit" disabled={isLoading}>{isChecked? "Sign Up" : "Log In"}</button>
+            </form>
+          </div>
+        )}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+      </div>
   );
 };
-
-export default LoginPage;
