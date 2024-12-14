@@ -1,4 +1,5 @@
 import { useCurrentView } from "../features/HomePage/ViewProvider"
+import backArrow from '../../public/assets/arrow-left-solid.svg'
 
 interface BackArrowButtonProps {
     view: string
@@ -12,7 +13,7 @@ export default function BackArrowButton({view}: BackArrowButtonProps) {
             role="button" 
             className='back-button'
             onClick={()=>setCurrentView(view)}>
-                <img className='back-arrow' src={('/assets/arrow-left-solid.svg')} alt="icon" />
+                <img className='back-arrow' src={backArrow} alt="back" />
         </button> 
     )
 }

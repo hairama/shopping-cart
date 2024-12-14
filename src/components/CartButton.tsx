@@ -1,4 +1,5 @@
 import { useCurrentView } from "../features/HomePage/ViewProvider"
+import cartPic from "../../public/assets/cart-shopping-solid.svg"
 interface CartButtonProps {
     view: string
     cartItemCount: number
@@ -15,7 +16,7 @@ export default function CartButton({cartItemCount, view}: CartButtonProps) {
             >
             <div className="cart-btn-text">{`
                 ${cartItemCount} ${cartItemCount > 1 ? ' items in cart' : ' item in cart'}`}</div> 
-            <img className='icon-button' src={('/assets/cart-shopping-solid.svg')} alt="icon" />
+            <img className='icon-button' src={cartPic} alt="icon" />
         </button>
         
     )

@@ -3,6 +3,7 @@ import IconButton from "../../components/IconButton";
 import ListOfLists from "./ListOfLists";
 import InputField from "../../components/Input/InputField";
 import InputButton from "../../components/Input/InputButton";
+import profile from "../../../public/assets/circle-user-solid.svg"
 import { useState } from "react";
 import { useAuth } from "../Auth/AuthProvider";
 import { useCurrentList } from "./CurrentListProvider";
@@ -43,7 +44,7 @@ export default function HomePage() {
                 {user && <span>{user.first_name}</span>}
                 <IconButton 
                     view="login-page"
-                    iconUrl='../assets/circle-user-solid.svg'
+                    iconUrl={profile}
                 />
             </div>
             <CatPic />

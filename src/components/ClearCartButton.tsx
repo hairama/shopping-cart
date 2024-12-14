@@ -3,6 +3,7 @@ import { ShoppingListItem } from "../types/ShoppingListTypes";
 import { useCurrentView } from "../features/HomePage/ViewProvider";
 import MessageModal from "./MessageModal"
 import { useState } from "react"
+import cartPic from "../../public/assets/cart-shopping-solid.svg"
 
 interface ClearCartButtonProps {
     shoppingListInDb: ShoppingListItem[]
@@ -36,7 +37,7 @@ export default function ClearCartButton({shoppingListInDb, listId, cartItemCount
                 className='cart-button'
                 onClick={askToConfirm}>
                     <div className="cart-btn-text">Clear Cart</div>
-                    <img className='icon-button' src={('/assets/cart-shopping-solid.svg')} alt="icon" />
+                    <img className='icon-button' src={cartPic} alt="cart" />
             </button> 
             { isConfirmed == true &&
             <MessageModal 

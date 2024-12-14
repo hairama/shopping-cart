@@ -10,6 +10,7 @@ import { useAuth } from "./ShoppingContextProvider";
 import { checkForAccount } from "../Auth/CheckForAccount";
 import { useListUsers } from "../storage/useFirebaseData";
 import { useCleanupSharedList } from "../storage/useFirebaseUpdate"
+import trashcan from "../../../public/assets/trash-can-solid.svg"
 //import { updateCurrentUser } from "firebase/auth";
 //import { FirebaseListUser } from "../storage/useFirebaseData";
 
@@ -156,7 +157,7 @@ export default function ListManagementPage() {
                             <p>{user.email}</p>
                             <img 
                                 className="icon-button"
-                                src="./public/assets/trash-can-solid.svg" 
+                                src={trashcan}
                                 onClick={()=>removeFromSharing(user.id)}
                             />
                         </li>)
