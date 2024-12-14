@@ -152,7 +152,7 @@ export default function LoginPage() {
             <form 
                 className='inputs-and-buttons'
                 onSubmit={ isChecked ? handleSignUp : handleLogin}>
-              <div >
+              <div>
                 <p>Email</p>
                   <input
                     name="username"
@@ -163,9 +163,8 @@ export default function LoginPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                   />
-            
-                
               </div>
+
               <div>
                 <p>Password</p>
                 <input
@@ -177,16 +176,17 @@ export default function LoginPage() {
                   required
                 />
               </div>
+
               {isChecked && 
                 <div>
-                <label>First name</label>
-                <input
-                  type="text"
-                  value={firstName}
-                  required
-                  onChange={(e) => setFirstName(e.target.value)}
-                />
-              </div>
+                  <p>First name</p>
+                  <input
+                    type="text"
+                    value={firstName}
+                    required
+                    onChange={(e) => setFirstName(e.target.value)}
+                  />
+                </div>
               }
               
               <button className="log-in-button"
