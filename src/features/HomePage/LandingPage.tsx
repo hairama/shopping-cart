@@ -1,8 +1,11 @@
-import CatPic from "../../components/CatPic"
+//import CatPic from "../../components/CatPic"
 import InputButton from "../../components/Input/InputButton"
 import LoginPage from "../Auth/LoginPage"
 // import { useCurrentView } from "./ViewProvider"
 import { useState } from "react"
+import addItems from "../../../public/assets/add-items-to-list.gif"
+import share from "../../../public/assets/share-lists.gif"
+import getDone from "../../../public/assets/get-done-faster.gif"
 
 export default function LandingPage() {
     const [ tryTheApp, setTryTheApp ] = useState('no')
@@ -11,10 +14,16 @@ export default function LandingPage() {
             { tryTheApp === 'no' &&
             <div className="landing-page">
                 <h1>QuickList</h1>
-                <h2>Spend less time grocery shopping</h2>
-                <CatPic />
+                <h2>Faster grocery shopping</h2>
+                <p className="landing-page-text">Make lists</p>
+                <img className="landing-page-gif" src={addItems} />
+                <p className="landing-page-text">Share them</p>
+                <img className="landing-page-gif" src={share} />
+                <p className="landing-page-text">Finish faster</p>
+                <img className="landing-page-gif" src={getDone} />
+                <p>It's free!</p>
                 <InputButton 
-                    text="Try the app"
+                    text="Try QuickList"
                     onClick={()=>setTryTheApp('yes')}
                 />
             </div>
