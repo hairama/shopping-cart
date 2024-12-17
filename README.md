@@ -11,7 +11,7 @@ Nearly all of my grocery shopping is done at 3 stores, and I buy the same things
 3. **Supported multiple stores**: only seeing the things you want makes shopping much faster
 4. **Had a pleasant design**: 
 
-I decided to build ![this](https://www.quicklist.pet)
+I decided to build [this](https://www.quicklist.pet)
 
 ## *Technical Details* 📝
 
