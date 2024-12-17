@@ -6,6 +6,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 // export default defineConfig({
 //   plugins: [react()],
 // })
+const appName = process.env.VITE_APP_NAME || 'DefaultApp'
 
 export default defineConfig({
   plugins: [
@@ -17,8 +18,8 @@ export default defineConfig({
         globPatterns: ['**/*.{html,js,css,png,jpg,svg}'],
       },
       manifest: {
-        name: 'QuickList',
-        short_name: 'QuickList',
+        name: appName,
+        short_name: appName,
         description: 'Spend less time shopping',
         theme_color: '#EEF0F4',
         background_color: '#EEF0F4',

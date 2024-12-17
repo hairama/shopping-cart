@@ -6,14 +6,16 @@ import { useState } from "react"
 import addItems from "../../../public/assets/add-items-to-list.gif"
 import share from "../../../public/assets/share-lists.gif"
 import getDone from "../../../public/assets/get-done-faster.gif"
+import { appName } from "../../config"
 
 export default function LandingPage() {
     const [ tryTheApp, setTryTheApp ] = useState('no')
+
     return (
         <div >
             { tryTheApp === 'no' &&
             <div className="landing-page">
-                <h1>QuickList</h1>
+                <h1>{appName}</h1>
                 <h2>Faster grocery shopping</h2>
                 <p className="landing-page-text">Make lists</p>
                 <img className="landing-page-gif" src={addItems} />
@@ -23,7 +25,7 @@ export default function LandingPage() {
                 <img className="landing-page-gif" src={getDone} />
                 <p>It's free!</p>
                 <InputButton 
-                    text="Try QuickList"
+                    text={`Try ${appName}`}
                     onClick={()=>setTryTheApp('yes')}
                 />
             </div>
