@@ -1,9 +1,7 @@
 # Shopping-Cart: A Progressive Web App
 
 ## *Overview* 🧐
-Despite all our advances in technology, shopping for groceries is still a time-consuming process. 
-
-Over the years, I've tried several ways to create & share grocery lists (iMessages, ToDoist lists, the iOS Notes app, etc) but nothing has really met my needs. Some existing solutions are so complex they're unusable, while others look like they were designed in the 1990's.
+Grocery shopping is a time-consuming process. Making a shopping list and checking items off should be simple, but none of the existing options really met my needs--so I decided to build my own.
 
 Nearly all of my grocery shopping is done at 3 stores, and I buy the same things at regular intervals: bread, milk, cheese, butter, eggs, etc. I wanted an app that:
 1. **Was simple and intuitive**: type the name of an item to add it to your list, tap an item in your list after you put it in your cart
