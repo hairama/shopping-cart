@@ -15,8 +15,8 @@ html, body {
 }
 
 img {
-  width: 150px;
-  margin: 30px auto;
+  width: 125px;
+  margin: 0 auto 0px auto;
   padding: 0;
 }
 
@@ -44,7 +44,7 @@ button {
 }
 
 button:hover {
-  background-color: #432000;
+  /* background-color: #432000; */
   cursor: pointer;
 }
 
@@ -71,6 +71,18 @@ ul li:hover {
   cursor: pointer;
 }
 
+.shopping-list {
+  /* display: flex; */
+  justify-content: center;
+  margin-bottom: 10vh;
+}
+
+.cart-list {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
 .cart-button {
   display: flex;
   padding: .75rem 1rem;
@@ -79,39 +91,71 @@ ul li:hover {
   box-shadow: 0px 3px 4px #00000066;
   position: fixed;
   bottom: 6vh;
-  min-width: 15rem;
+  justify-self: center;
   align-self: center;
+  margin: 0 auto;
+  min-width: 15rem;
   border: 0.5px solid rgba(58, 56, 56, 0.165);
   align-items: center;
-  justify-content: left;
+  justify-content: center;
 }
 
 .cart-button-text {
   padding: 0.25rem;
 }
 
-.cart-button-count {
-  margin-left: auto;
-}
+/* .cart-button-count {
+  /* margin-left: auto; */
+
 
 .cart-button:hover {
   background-color: #A5ABB9;
 }
 
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
 .icon-button {
   fill:#AC485A;
+  background-color: transparent;
   height: 1.25rem;
   width: 1.25rem;
   margin: auto 0 auto 0.5rem;
+  align-self: center;
+}
+
+.icon-button-top-right {
+  /* margin-left: auto; */
+  padding: 0;
+  width: 1.75rem;
+  height: 2.5rem;
+  background-color: transparent;
+  cursor: pointer;
+  /* justify-self: center; */
+}
+
+.icon-image-top-right {
+  margin: 0;
+  padding: 0;
+  width: 1.75rem;
+  height: 1.75rem;
 }
 
 .back-button {
   background-color: transparent;
-  position: absolute;
   margin: 0;
   padding: 0;
   height: 2.5rem;
   cursor: pointer;
+  align-self: start;
+}
+
+.back-button:hover {
+  background-color: transparent;
 }
 
 .back-arrow {
@@ -119,4 +163,238 @@ ul li:hover {
   padding: 0;
   width: 1.75rem;
   height: 1.75rem;
+}
+
+.list-of-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+}
+
+.overlay {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.70);
+  z-index: 10;
+}
+
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #DCE1EB;
+  margin: auto auto;
+  padding: 1.5rem;
+  border-radius: 8px;
+  align-self: center;
+  justify-self: center;
+  min-width: 15rem;
+  min-height: 15rem;
+  z-index: 100;
+  box-shadow: 0px 4px 7px #00000066;
+  font-size: larger;
+  gap: 0.5rem;
+}
+
+.modal-button-one {
+  margin-top: auto;
+}
+
+.navHeaderFlexContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.list-name-and-cat-container {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  /* border: 10px solid green; */
+  /* padding: 20px; */
+  /* background-color: black; */
+}
+
+.store-name-button {
+  /* height: 38px; */
+  background-color: #8e515c;
+  color: #DCE1EB;
+  /* font-size: 1.5rem; */
+  /* align-self: center;
+  justify-self: center; */
+  /* margin: 0px auto; */
+  /* padding: 0.25rem 0.5rem; */
+}
+
+p {
+  margin-bottom: .33rem;
+}
+
+.shared-list-user {
+  font-size: 1rem;
+  text-align: left;
+  margin: 0;
+  padding: 1rem 1.5rem;
+}
+
+.shared-list-user p {
+  margin: 0px;
+}
+
+.landing-page {
+  text-align: center;
+  margin: 2vh auto;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+}
+
+.landing-page h1 {
+  font-size: 8vw;
+  font-weight: 600;
+  font-family: 'Rubik', sans-serif;
+  margin-bottom: 0.5vw;
+  padding-bottom: 0;
+  text-align: center;
+}
+
+.landing-page h2 {
+  font-size: 4vw;
+  font-weight: 400;
+  margin: 0 50px;
+}
+
+.landing-page button {
+  width: 80vw;
+  margin: 0 auto;
+  max-width: 300px;
+}
+
+.login-page {
+  margin: 2.5rem auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid black; */
+}
+
+.login-form {
+  margin: 0;
+}
+
+.inputs-and-buttons {
+  text-align: left;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.inputs-and-buttons input, .inputs-and-buttons button, .inputs-and-buttons label {
+  font-size: 1.2rem;
+  width: 85vw;
+  max-width: 350px;
+  margin: 0.33rem 0;
+}
+
+.log-in-button {
+  align-self: center;
+  justify-self: center;
+  margin: 0px;
+  
+}
+
+        /* TOGGLE STYLING */ 
+/* The switch - the box around the slider */
+.toggle-switch-and-text {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  justify-content: start;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  margin: 1rem 0;
+}
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #AC485A;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #AC485A;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(21px);
+  -ms-transform: translateX(21px);
+  transform: translateX(21px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+} 
+
+label {
+  display: inline-block;
+}
+
+.landing-page-gif {
+  width: 90%;
+  border-radius: 8px;
+  border: 2px solid #1E1E1E20
+}
+
+.landing-page-text {
+  font-size: 2rem;
+  font-weight: 600;
+
 }

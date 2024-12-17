@@ -1,14 +1,19 @@
+import { useCurrentView } from "../features/HomePage/ViewProvider"
+import backArrow from '../../public/assets/arrow-left-solid.svg'
+
 interface BackArrowButtonProps {
-    setCurrentView: (list: string) => void
+    view: string
 }
 
-export default function BackArrowButton({setCurrentView}: BackArrowButtonProps) {
+export default function BackArrowButton({view}: BackArrowButtonProps) {
+    const { setCurrentView } = useCurrentView()
+
     return (
         <button 
             role="button" 
             className='back-button'
-            onClick={()=>setCurrentView("shopping-list")}>
-                <img className='back-arrow' src={('/assets/arrow-left-solid.svg')} alt="icon" />
+            onClick={()=>setCurrentView(view)}>
+                <img className='back-arrow' src={backArrow} alt="back" />
         </button> 
     )
 }
