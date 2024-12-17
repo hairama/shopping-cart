@@ -1,4 +1,3 @@
-//import CatPic from "../../components/CatPic"
 import InputButton from "../../components/Input/InputButton"
 import LoginPage from "../Auth/LoginPage"
 // import { useCurrentView } from "./ViewProvider"

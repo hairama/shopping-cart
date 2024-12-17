@@ -3,7 +3,6 @@ import IconButton from "../../components/IconButton";
 import ListOfLists from "./ListOfLists";
 import InputField from "../../components/Input/InputField";
 import InputButton from "../../components/Input/InputButton";
-import profile from "../../../public/assets/circle-user-solid.svg"
 import { useState } from "react";
 import { useAuth } from "../Auth/AuthProvider";
 import { useCurrentList } from "./CurrentListProvider";
@@ -13,6 +12,7 @@ export default function HomePage() {
     const {user} = useAuth()
     const [ newListName, setNewListName ]= useState<string>("")
     const {setCurrentList} = useCurrentList()
+    const profile = "./assets/circle-user-solid.svg"
     
     async function createNewList(newListName:string, uid:string) {
         setCurrentList({listId: "none", listName: "list name"})

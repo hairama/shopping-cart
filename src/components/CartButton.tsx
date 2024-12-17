@@ -1,5 +1,4 @@
 import { useCurrentView } from "../features/HomePage/ViewProvider"
-import cartPic from "../../public/assets/cart-shopping-solid.svg"
 interface CartButtonProps {
     view: string
     cartItemCount: number
@@ -7,6 +6,7 @@ interface CartButtonProps {
 
 export default function CartButton({cartItemCount, view}: CartButtonProps) {
     const { setCurrentView } = useCurrentView()
+    const cartPic = "./assets/cart-shopping-solid.svg"
 
     return (
         cartItemCount > 0 && <button 
