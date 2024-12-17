@@ -3,7 +3,7 @@ import { ShoppingListItem } from "../types/ShoppingListTypes";
 import { useCurrentView } from "../features/HomePage/ViewProvider";
 import MessageModal from "./MessageModal"
 import { useState } from "react"
-import cartPic from "../../public/assets/cart-shopping-solid.svg"
+
 
 interface ClearCartButtonProps {
     shoppingListInDb: ShoppingListItem[]
@@ -14,6 +14,7 @@ interface ClearCartButtonProps {
 export default function ClearCartButton({shoppingListInDb, listId, cartItemCount}: ClearCartButtonProps) {
     const { setCurrentView } = useCurrentView()
     const [isConfirmed, setIsConfirmed] = useState(false)
+    const cartPic = "./assets/cart-shopping-solid.svg"
 
     function askToConfirm() {
         setIsConfirmed(oldValue => !oldValue)

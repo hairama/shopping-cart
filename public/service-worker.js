@@ -7,7 +7,7 @@ self.addEventListener('install', (event) => {
           '/', // Cache the home page
           '/index.html',
           '/index.css', // Include other assets like CSS, JS, images
-          '/app.jsx',
+          '/app.tsx',
         ]);
       })
     );
