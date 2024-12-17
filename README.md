@@ -21,7 +21,7 @@ I decided to build [this](https://www.quicklist.pet)
 
 ## *Screenshots* 📷
 
-![Fast, elegant](./assets/while_shopping.png)
+![Fast, elegant](./public/assets/while_shopping.png)
 
 ![Simple](./public/assets/admin_features.png)
 
